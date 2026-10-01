@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#FBE3BD"/>
+<path d="M28 44 L30.4 38 38 40 L30.4 42 28 48 L25.6 42 18 40 L25.6 38 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M174 70 L176.4 64 184 66 L176.4 68 174 74 L171.6 68 164 66 L171.6 64 Z" fill="#FFFDF7" opacity="0.9"/>
+<circle cx="92" cy="88" r="3.575" fill="#33261D"/>
+<circle cx="108" cy="88" r="3.575" fill="#33261D"/>
+<circle cx="93" cy="86" r="1.17" fill="#FFF"/>
+<circle cx="109" cy="86" r="1.17" fill="#FFF"/>
+<circle cx="83" cy="92" r="3.25" fill="#FF5A3C" opacity=".38"/>
+<circle cx="117" cy="92" r="3.25" fill="#FF5A3C" opacity=".38"/>
+<path d="M95.5 104 Q100 108 104.5 104" stroke="#33261D" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+<circle cx="100" cy="92" r="52" fill="#FF5A3C" stroke="#33261D" stroke-width="5"/>
+<path d="M86 44 Q100 92 86 140" stroke="#FFFDF7" stroke-width="9" fill="none" opacity=".9" stroke-linecap="round"/>
+<path d="M114 44 Q100 92 114 140" stroke="#FFFDF7" stroke-width="9" fill="none" opacity=".9" stroke-linecap="round"/>
+<path d="M85 142 L91 162 M115 142 L109 162" stroke="#33261D" stroke-width="3.5" stroke-linecap="round"/>
+<rect x="84" y="160" width="32" height="24" rx="7" fill="#C08552" stroke="#33261D" stroke-width="4.5"/>
+<ellipse cx="38" cy="204" rx="24" ry="13" fill="#FFFDF7"/>
+<ellipse cx="165" cy="52" rx="20" ry="11" fill="#FFFDF7"/>
+<path d="M148 214 q6 -8 12 0 q6 -8 12 0" stroke="#33261D" stroke-width="3" fill="none" stroke-linecap="round"/>
+</svg>

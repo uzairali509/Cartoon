@@ -1,0 +1,10 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#FFC531"/>
+<circle cx="30" cy="40" r="5" fill="#FFFDF7" opacity=".8"/><circle cx="172" cy="66" r="4" fill="#FFFDF7" opacity=".8"/>
+<circle cx="40" cy="210" r="4" fill="#FFFDF7" opacity=".8"/><circle cx="160" cy="214" r="3.5" fill="#FFFDF7" opacity=".8"/>
+<path d="M166 26 L168.4 20 176 22 L168.4 24 166 30 L163.6 24 156 22 L163.6 20 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M24 120 L26.4 114 34 116 L26.4 118 24 124 L21.6 118 14 116 L21.6 114 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M100 42 L119 88 L169 92 L131 124 L143 172 L100 146 L57 172 L69 124 L31 92 L81 88 Z" fill="#FFFDF7" stroke="#33261D" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="43" cy="52" r="3.2" fill="#33261D"/><circle cx="57" cy="52" r="3.2" fill="#33261D"/>
+<path d="M46 59 Q50 62.5 54 59" stroke="#33261D" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+</svg>

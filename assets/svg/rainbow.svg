@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#FBE3BD"/>
+<circle cx="34" cy="58" r="13" fill="#FFC531" stroke="#33261D" stroke-width="4"/>
+<path d="M170 66 L172.4 60 180 62 L172.4 64 170 70 L167.6 64 160 62 L167.6 60 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M160 150 L162.4 144 170 146 L162.4 148 160 154 L157.6 148 150 146 L157.6 144 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M44 196 A56 56 0 0 1 156 196" stroke="#FF5A3C" stroke-width="17" fill="none"/>
+<path d="M58 196 A42 42 0 0 1 142 196" stroke="#FFC531" stroke-width="17" fill="none"/>
+<path d="M72 196 A28 28 0 0 1 128 196" stroke="#12A594" stroke-width="17" fill="none"/>
+<g fill="#FFFDF7" stroke="#33261D" stroke-width="4">
+<ellipse cx="42" cy="200" rx="27" ry="16"/><ellipse cx="158" cy="200" rx="27" ry="16"/>
+</g>
+</svg>

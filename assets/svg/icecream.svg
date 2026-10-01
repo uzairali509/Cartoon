@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#C8EFE4"/>
+<path d="M32 44 L34.4 38 42 40 L34.4 42 32 48 L29.6 42 22 40 L29.6 38 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M170 70 L172.4 64 180 66 L172.4 68 170 74 L167.6 68 160 66 L167.6 64 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M148 206 L150.4 200 158 202 L150.4 204 148 210 L145.6 204 138 202 L145.6 200 Z" fill="#FFFDF7" opacity="0.9"/>
+<circle cx="84" cy="122" r="23" fill="#7ADCD0" stroke="#33261D" stroke-width="5"/>
+<circle cx="116" cy="122" r="23" fill="#FFB4A2" stroke="#33261D" stroke-width="5"/>
+<circle cx="100" cy="104" r="24" fill="#FFFDF7" stroke="#33261D" stroke-width="5"/>
+<circle cx="100" cy="72" r="10" fill="#FF5A3C" stroke="#33261D" stroke-width="4"/>
+<path d="M100 62 Q104 50 112 46" stroke="#33261D" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<path d="M66 146 L134 146 L100 232 Z" fill="#E8B36B" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/>
+<path d="M79 168 L113 168 M87 190 L105 190 M92 208 L100 208" stroke="#33261D" stroke-width="3" opacity=".35" stroke-linecap="round"/>
+<circle cx="95" cy="104" r="3.85" fill="#33261D"/>
+<circle cx="105" cy="104" r="3.85" fill="#33261D"/>
+<circle cx="97" cy="102" r="1.275" fill="#FFF"/>
+<circle cx="107" cy="102" r="1.275" fill="#FFF"/>
+<circle cx="89" cy="110" r="3.5" fill="#FF5A3C" opacity=".38"/>
+<circle cx="111" cy="110" r="3.5" fill="#FF5A3C" opacity=".38"/>
+<path d="M95 118 Q100 122 105 118" stroke="#33261D" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+</svg>

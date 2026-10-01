@@ -1,0 +1,20 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#F2E1BE"/>
+<ellipse cx="100" cy="238" rx="90" ry="34" fill="#E2CB98"/>
+<path d="M30 44 L32.6 38 40 40 L32.6 42 30 48 L27.4 42 20 40 L27.4 38 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M172 52 L174.6 46 182 48 L174.6 50 172 56 L169.4 50 162 48 L169.4 46 Z" fill="#FFFDF7" opacity="0.9"/>
+<circle cx="87" cy="128" r="5.5" fill="#33261D"/>
+<circle cx="113" cy="128" r="5.5" fill="#33261D"/>
+<circle cx="89" cy="126" r="1.8" fill="#FFF"/>
+<circle cx="115" cy="126" r="1.8" fill="#FFF"/>
+<circle cx="75" cy="136" r="5" fill="#FF5A3C" opacity=".38"/>
+<circle cx="125" cy="136" r="5" fill="#FF5A3C" opacity=".38"/>
+<path d="M93 149 L107 149 L100 159 Z" fill="#33261D"/>
+<circle cx="56" cy="70" r="24" fill="#C08552" stroke="#33261D" stroke-width="5"/>
+<circle cx="144" cy="70" r="24" fill="#C08552" stroke="#33261D" stroke-width="5"/>
+<circle cx="56" cy="70" r="11" fill="#EFC9A0"/><circle cx="144" cy="70" r="11" fill="#EFC9A0"/>
+<ellipse cx="100" cy="134" rx="62" ry="56" fill="#C08552" stroke="#33261D" stroke-width="5"/>
+<ellipse cx="100" cy="158" rx="30" ry="21" fill="#FFFDF7"/>
+<path d="M93 166 Q100 172.5 107 166" stroke="#33261D" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+<ellipse cx="100" cy="150" rx="8.5" ry="6.5" fill="#33261D"/>
+</svg>

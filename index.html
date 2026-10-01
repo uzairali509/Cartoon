@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cartoon Universe — A Hand-Drawn World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="intro-on">
+  <!-- cinematic intro — only on home page -->
+  <div id="intro">
+    <div id="introStage">
+      <div id="introBg"></div>
+      <div id="chainLayer">
+        <div class="card chain-card" data-scene="fox">
+          <div class="art">
+            <img src="assets/gif/benten.gif" alt="Benten" />
+          </div>
+        </div>
+
+        <div class="card chain-card" data-scene="rocket">
+          <div class="art">
+            <img src="src/madagascar.jpg" alt="Madagascar" />
+          </div>
+        </div>
+        <div class="card chain-card" data-scene="cactus">
+          <div class="art"><img src="assets/svg/cactus.svg" alt="" /></div>
+        </div>
+        <div class="card chain-card" data-scene="bear">
+          <div class="art"><img src="assets/svg/bear.svg" alt="" /></div>
+        </div>
+        <div class="card chain-card" data-scene="icecream">
+          <div class="art"><img src="assets/svg/icecream.svg" alt="" /></div>
+        </div>
+        <div class="card chain-card" data-scene="balloon">
+          <div class="art"><img src="assets/svg/balloon.svg" alt="" /></div>
+        </div>
+        <div class="card chain-card" data-scene="burger">
+          <div class="art"><img src="assets/svg/burger.svg" alt="" /></div>
+        </div>
+      </div>
+      <div id="whitePanel"></div>
+      <div id="collageLayer">
+        <div class="card collage-card main-card" data-scene="world">
+          <div class="art"><img src="assets/svg/world.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card" data-scene="rainbow">
+          <div class="art"><img src="assets/svg/rainbow.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card" data-scene="bunny">
+          <div class="art"><img src="assets/svg/bunny.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card" data-scene="cat">
+          <div class="art"><img src="assets/svg/cat.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card" data-scene="star">
+          <div class="art"><img src="assets/svg/star.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card" data-scene="controller">
+          <div class="art"><img src="assets/svg/controller.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card land" data-scene="icecream">
+          <div class="art"><img src="assets/svg/icecream.svg" alt="" /></div>
+        </div>
+        <div class="card collage-card land" data-scene="burger">
+          <div class="art"><img src="assets/svg/burger.svg" alt="" /></div>
+        </div>
+      </div>
+      <div id="brandMark">
+        <span class="bm-badge"><svg viewBox="0 0 24 24">
+            <path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.3 6.4 19.5l1.5-6.3L3 9l6.4-.6z" fill="#FFFDF7" />
+          </svg></span>
+        <span class="bm-text">CARTOON UNIVERSE</span>
+      </div>
+      <div id="flash"></div>
+    </div>
+    <button id="skipBtn">SKIP INTRO
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M5 12h13M13 6l6 6-6 6" />
+      </svg>
+    </button>
+  </div>
+
+  <div id="site" aria-hidden="true">
+    <div class="sky">
+      <div class="sun-wrap">
+        <div class="sun-halo"></div>
+        <svg class="sun-svg" viewBox="0 0 120 120" aria-hidden="true">
+          <g id="sunRays" stroke="#FFC531" stroke-width="9" stroke-linecap="round">
+            <line x1="60" y1="10" x2="60" y2="26" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(45 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(90 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(135 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(180 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(225 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(270 60 60)" />
+            <line x1="60" y1="10" x2="60" y2="26" transform="rotate(315 60 60)" />
+          </g>
+          <circle cx="60" cy="60" r="30" fill="#FFC531" stroke="#33261D" stroke-width="4" />
+          <path d="M44 56 q6 -6 12 0" stroke="#33261D" stroke-width="4" fill="none" stroke-linecap="round" />
+          <path d="M64 56 q6 -6 12 0" stroke="#33261D" stroke-width="4" fill="none" stroke-linecap="round" />
+          <path d="M53 68 q7 6 14 0" stroke="#33261D" stroke-width="4" fill="none" stroke-linecap="round" />
+          <circle cx="40" cy="64" r="4.5" fill="#FF5A3C" opacity=".4" />
+          <circle cx="80" cy="64" r="4.5" fill="#FF5A3C" opacity=".4" />
+        </svg>
+      </div>
+      <div class="cloud c1"><img src="assets/svg/cloud.svg" alt="" /></div>
+      <div class="cloud c2"><img src="assets/svg/cloud.svg" alt="" /></div>
+      <div class="cloud c3"><img src="assets/svg/cloud.svg" alt="" /></div>
+      <div class="cloud c4"><img src="assets/svg/cloud.svg" alt="" /></div>
+    </div>
+
+    <svg class="hills" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path d="M0 150 Q170 70 360 130 Q520 178 700 122 Q900 64 1080 124 Q1260 180 1440 118 V320 H0 Z" fill="#CBE3B4" />
+      <path d="M0 214 Q200 132 420 192 Q640 242 860 186 Q1090 136 1440 198 V320 H0 Z" fill="#8FCF96" />
+      <g fill="#2F8A57">
+        <circle cx="400" cy="196" r="26" />
+        <rect x="394" y="208" width="12" height="26" fill="#8A5A38" />
+        <circle cx="720" cy="190" r="30" />
+        <rect x="713" y="204" width="14" height="30" fill="#8A5A38" />
+        <circle cx="1060" cy="202" r="22" />
+        <rect x="1054" y="212" width="11" height="22" fill="#8A5A38" />
+      </g>
+      <path d="M0 272 Q260 214 520 262 Q780 302 1040 256 Q1270 222 1440 266 V320 H0 Z" fill="#55B374" />
+      <g fill="#3E9A63">
+        <circle cx="300" cy="286" r="18" />
+        <circle cx="880" cy="282" r="22" />
+        <circle cx="1340" cy="280" r="16" />
+      </g>
+    </svg>
+
+    <div class="floater f-fox" title="Ember"><span class="bob"><img src="assets/svg/fox.svg" alt=""
+          style="width:100%;height:100%;" /></span></div>
+    <div class="floater f-bunny" title="Pip"><span class="bob"><img src="assets/svg/bunny.svg" alt=""
+          style="width:100%;height:100%;" /></span></div>
+    <div class="floater f-star" title="Twinkle"><span class="bob"><img src="assets/svg/star.svg" alt=""
+          style="width:100%;height:100%;" /></span></div>
+    <div class="floater f-balloon"><span class="bob"><img src="assets/svg/balloon.svg" alt=""
+          style="width:100%;height:100%;" /></span></div>
+    <div id="particles"></div>
+
+    <header class="site-head">
+      <a class="brand" href="index.html">
+        <span class="badge"><svg viewBox="0 0 24 24">
+            <path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.3 6.4 19.5l1.5-6.3L3 9l6.4-.6z" fill="#FFFDF7" />
+          </svg></span>
+        <span>Cartoon Universe</span>
+      </a>
+      <nav id="mainNav" aria-label="Main navigation">
+        <a class="nav-btn active" href="index.html">HOME</a>
+        <a class="nav-btn" href="characters.html">CHARACTERS</a>
+        <a class="nav-btn" href="shows.html">SHOWS</a>
+        <a class="nav-btn" href="episodes.html">EPISODES</a>
+        <a class="nav-btn" href="games.html">GAMES</a>
+        <a class="nav-btn" href="about.html">ABOUT</a>
+      </nav>
+      <div class="nav-auth">
+        <a class="btn-pill" href="login.html">LOG IN</a>
+        <a class="btn-primary" href="signup.html">SIGN UP</a>
+        <button id="replayBtn" class="icon-btn" title="Replay the intro" aria-label="Replay the intro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <h1 class="title-wrap"><span id="bigTitle">
+          <span class="t-line">CARTOON</span>
+          <span class="t-line">UNIVERSE</span>
+        </span></h1>
+      <p class="tagline">A hand-drawn world of tiny heroes, big feelings, and one very sleepy bear.</p>
+      <a class="ticket" href="episodes.html">
+        <span class="ticket-dot"></span>
+        <span>EP 12 · "The Great Jam Heist" — out now</span>
+      </a>
+    </main>
+  </div>
+
+  <div class="grain"></div>
+  <div id="toast" role="status"></div>
+  <div id="svgAssets" hidden>
+    <div id="asset-star"><img src="assets/svg/star-pop.svg" alt="" /></div>
+    <div id="asset-star-gold"><img src="assets/svg/star-pop-gold.svg" alt="" /></div>
+  </div>
+
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="200" height="250" fill="#C8EFE4"/>
+<path d="M34 48 L36.4 42 44 44 L36.4 46 34 52 L31.6 46 24 44 L31.6 42 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M170 92 L172.4 86 180 88 L172.4 90 170 96 L167.6 90 160 88 L167.6 86 Z" fill="#FFFDF7" opacity="0.9"/>
+<path d="M26 186 L28.4 180 36 182 L28.4 184 26 190 L23.6 184 16 182 L23.6 180 Z" fill="#FFFDF7" opacity="0.9"/>
+<circle cx="38" cy="126" r="4" fill="#FFFDF7"/><circle cx="56" cy="216" r="4" fill="#FFFDF7"/><circle cx="152" cy="30" r="3.5" fill="#FFFDF7"/>
+<circle cx="162" cy="200" r="21" fill="#FFC531" stroke="#33261D" stroke-width="4"/>
+<ellipse cx="162" cy="200" rx="32" ry="9" fill="none" stroke="#FF5A3C" stroke-width="5" transform="rotate(-18 162 200)"/>
+<path d="M79 100 Q100 20 121 100 Z" fill="#FF5A3C" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/>
+<rect x="79" y="92" width="42" height="84" rx="20" fill="#FFFDF7" stroke="#33261D" stroke-width="5"/>
+<circle cx="100" cy="124" r="13" fill="#7ADCD0" stroke="#33261D" stroke-width="4.5"/>
+<path d="M79 150 Q54 168 59 194 L79 176 Z" fill="#FF5A3C" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/>
+<path d="M121 150 Q146 168 141 194 L121 176 Z" fill="#FF5A3C" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/>
+<path d="M87 176 Q100 220 113 176 Z" fill="#FFC531" stroke="#33261D" stroke-width="4" stroke-linejoin="round"/>
+<path d="M92 176 Q100 198 108 176 Z" fill="#FF5A3C"/>
+</svg>
