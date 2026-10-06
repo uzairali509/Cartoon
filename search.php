@@ -54,9 +54,13 @@ if (!empty($query)) {
             
             if ($isAnimation || $isFamily || $isKids || $hasAnimationKeywords) {
                 if ($mediaType === 'tv') {
-                    $results[] = $tmdb->formatTvShow($result);
+                    $formatted = $tmdb->formatTvShow($result);
+                    $formatted['media_type'] = 'tv';
+                    $results[] = $formatted;
                 } elseif ($mediaType === 'movie') {
-                    $results[] = $tmdb->formatMovie($result);
+                    $formatted = $tmdb->formatMovie($result);
+                    $formatted['media_type'] = 'movie';
+                    $results[] = $formatted;
                 }
             }
         }
@@ -69,9 +73,13 @@ if (!empty($query)) {
             if ($mediaType === 'person') continue;
             
             if ($mediaType === 'tv') {
-                $results[] = $tmdb->formatTvShow($result);
+                $formatted = $tmdb->formatTvShow($result);
+                $formatted['media_type'] = 'tv';
+                $results[] = $formatted;
             } elseif ($mediaType === 'movie') {
-                $results[] = $tmdb->formatMovie($result);
+                $formatted = $tmdb->formatMovie($result);
+                $formatted['media_type'] = 'movie';
+                $results[] = $formatted;
             }
         }
     }
@@ -105,9 +113,15 @@ include __DIR__ . '/includes/header.php';
         </div>
       <?php else: ?>
         <div class="content-grid" data-stagger>
-          <?php foreach ($results as $item): ?>
+          <?php foreach ($results as $item): 
+            $pdo = getConnection();
+            $hasVideo = hasLocalVideo($pdo, $item['tmdb_id'], $item['media_type']);
+            $watchUrl = $hasVideo ? "watch.php?show_id={$item['tmdb_id']}" : ($item['media_type'] === 'tv' ? "show.php?id={$item['tmdb_id']}" : "movie.php?id={$item['tmdb_id']}");
+            $watchText = $hasVideo ? 'WATCH NOW' : 'VIEW DETAILS';
+            $watchIcon = $hasVideo ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+          ?>
             <article class="content-card">
-              <a href="<?= $item['media_type'] === 'tv' ? 'show.php?id=' . $item['tmdb_id'] : 'movie.php?id=' . $item['tmdb_id'] ?>" class="card-link">
+              <a href="<?= $item['media_type'] === 'tv' ? "show.php?id={$item['tmdb_id']}" : "movie.php?id={$item['tmdb_id']}" ?>" class="card-link">
                 <div class="card-poster">
                   <?php if (!empty($item['poster_url'])): ?>
                     <img src="<?= htmlspecialchars($item['poster_url']) ?>" alt="" loading="lazy">
@@ -120,6 +134,9 @@ include __DIR__ . '/includes/header.php';
                     </div>
                   <?php endif; ?>
                   <span class="card-type"><?= htmlspecialchars($item['media_type'] === 'tv' ? 'TV Show' : 'Movie') ?></span>
+                  <?php if ($hasVideo): ?>
+                    <span class="card-video-badge">▶ PLAY</span>
+                  <?php endif; ?>
                 </div>
                 <div class="card-info">
                   <h3 class="card-title"><?= htmlspecialchars($item['title']) ?></h3>
@@ -150,6 +167,10 @@ include __DIR__ . '/includes/header.php';
                     </div>
                   <?php endif; ?>
                 </div>
+              </a>
+              <a href="<?= $watchUrl ?>" class="card-watch-btn" style="width: 100%; margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px; background: <?= $hasVideo ? 'var(--accent-primary)' : 'var(--bg-secondary)' ?>; color: <?= $hasVideo ? '#fff' : 'var(--text-primary)' ?>; border: 1px solid <?= $hasVideo ? 'var(--accent-primary)' : 'var(--border-default)' ?>; border-radius: var(--radius-md); font-weight: 600; font-size: .85rem; text-decoration: none; transition: var(--transition-fast);">
+                <?= $watchIcon ?>
+                <span><?= $watchText ?></span>
               </a>
             </article>
           <?php endforeach; ?>

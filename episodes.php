@@ -117,16 +117,29 @@ include __DIR__ . '/includes/header.php';
                 </span>
               </div>
               <div class="episode-actions">
-                <?php if ($currentUser): ?>
-                  <button class="btn-pill watch-ep-btn" data-episode-id="<?= $ep['id'] ?>" data-show-id="<?= $ep['show_id'] ?? 0 ?>" data-season="<?= $ep['season_number'] ?>" data-episode="<?= $ep['episode_number'] ?>">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                    <span>WATCH</span>
-                  </button>
-                  <button class="btn-pill favorite-btn" data-episode-id="<?= $ep['id'] ?>" data-media-type="episode">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                    <span>FAVORITE</span>
-                  </button>
-                <?php endif; ?>
+                <?php 
+                $pdo = getConnection();
+                $showTmdbId = $ep['show_id'] ?? 0;
+                $seasonNum = $ep['season_number'] ?? 1;
+                $episodeNum = $ep['episode_number'] ?? 1;
+                $hasVideo = hasLocalVideo($pdo, $showTmdbId, 'tv', $seasonNum, $episodeNum);
+                $watchUrl = $hasVideo ? "watch.php?show_id={$showTmdbId}&season={$seasonNum}&episode={$episodeNum}" : "show.php?id={$showTmdbId}";
+                $watchText = $hasVideo ? 'WATCH NOW' : 'VIEW SHOW';
+                $watchIcon = $hasVideo ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>';
+                ?>
+                  <a href="<?= $watchUrl ?>" class="btn-pill watch-ep-btn" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 14px; font-size: .8rem;">
+                    <?= $watchIcon ?>
+                    <span><?= $watchText ?></span>
+                    <?php if ($hasVideo): ?>
+                      <span style="background: rgba(255,255,255,0.2); padding: 1px 6px; border-radius: 999px; font-size: .55rem; font-weight: 700;">LOCAL</span>
+                    <?php endif; ?>
+                  </a>
+                  <?php if ($currentUser): ?>
+                    <button class="btn-pill favorite-btn" data-episode-id="<?= $ep['id'] ?>" data-media-type="episode">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                      <span>FAVORITE</span>
+                    </button>
+                  <?php endif; ?>
               </div>
             </div>
           </article>

@@ -88,43 +88,18 @@ include __DIR__ . '/includes/header.php';
 ?>
 <main class="page-wrap auth-wrap">
   <section class="page-card auth-card">
-    <!-- Left side - Brand/Art -->
-    <div class="auth-art">
-      <div class="auth-art-content">
-        <div class="auth-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.3 6.4 19.5l1.5-6.3L3 9l6.4-.6z" fill="#FFFDF7" />
-          </svg>
-        </div>
-        <h2>Join the Club</h2>
-        <p>Create your account and start exploring the Cartoon Universe</p>
-      </div>
-    </div>
-    
-    <!-- Right side - Signup Form -->
-    <div class="auth-form-container">
-      <h1 class="page-title">Create Account</h1>
-      <p class="page-sub">Fill in your details to get started</p>
-      
-      <?php if (!empty($message)): ?>
-        <div class="form-message <?= $message_type === 'success' ? 'success' : 'error' ?>">
-          <span class="message-icon">
-            <?= $message_type === 'success' ? '✓' : '!' ?>
-          </span>
-          <span><?= $message ?></span>
-        </div>
-      <?php endif; ?>
-      
-      <form method="post" action="" class="auth-fields" enctype="multipart/form-data">
-        <?= csrfField() ?>
+    <!-- Left side - Avatar Upload -->
+    <div class="auth-avatar-section">
+      <div class="auth-avatar-content">
+        <h2>Your Avatar</h2>
+        <p>Choose a picture to represent you in the Cartoon Universe</p>
         
-        <!-- Avatar Upload Section -->
         <div class="avatar-upload-section">
           <label for="picture" class="avatar-upload-label">
             <div class="avatar-preview" id="avatarPreview">
               <div class="default-avatar" id="defaultAvatar">
                 <div class="upload-icon">
-                  <span>📸</span>
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M12 14c-4.42 0-8 3.58-8 8v2h16v-2c0-4.42-3.58-8-8-8z"></path></svg>
                 </div>
                 <div class="upload-title">YOUR AVATAR</div>
                 <div class="upload-text">Choose a picture</div>
@@ -141,6 +116,25 @@ include __DIR__ . '/includes/header.php';
           <div class="upload-hint">PNG, JPG or WEBP (max 2MB) <span style="color: var(--accent-primary);">*</span></div>
           <div id="imageValidationMessage" class="form-message" style="display: none;"></div>
         </div>
+      </div>
+    </div>
+    
+    <!-- Right side - Signup Form -->
+    <div class="auth-form-section">
+      <h1 class="page-title">Create Account</h1>
+      <p class="page-sub">Fill in your details to get started</p>
+      
+      <?php if (!empty($message)): ?>
+        <div class="form-message <?= $message_type === 'success' ? 'success' : 'error' ?>">
+          <span class="message-icon">
+            <?= $message_type === 'success' ? '✓' : '!' ?>
+          </span>
+          <span><?= $message ?></span>
+        </div>
+      <?php endif; ?>
+      
+      <form method="post" action="" class="auth-fields" enctype="multipart/form-data">
+        <?= csrfField() ?>
         
         <label>
           YOUR NAME

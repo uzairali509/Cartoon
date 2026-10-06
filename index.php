@@ -27,64 +27,6 @@ if ($trendingShows && !empty($trendingShows['results'])) {
         }
     }
 }
-
-function renderShowCard(array $show, bool $showType = true): string {
-    $title = htmlspecialchars($show['title'] ?? '');
-    $year = !empty($show['first_air_date']) ? substr($show['first_air_date'], 0, 4) : (substr($show['release_date'] ?? '', 0, 4));
-    $rating = !empty($show['vote_average']) ? number_format($show['vote_average'], 1) : 'N/A';
-    $posterUrl = $show['poster_url'] ?? '';
-    $mediaType = $show['media_type'] ?? ($showType ? 'tv' : 'movie');
-    $id = $show['tmdb_id'] ?? $show['id'] ?? 0;
-    $genres = $show['genres'] ?? [];
-    $genreNames = [];
-    $genreMap = [
-        16 => 'Animation', 10751 => 'Family', 10759 => 'Action & Adventure',
-        10762 => 'Kids', 10765 => 'Sci-Fi & Fantasy', 35 => 'Comedy',
-        18 => 'Drama', 12 => 'Adventure', 14 => 'Fantasy', 9648 => 'Mystery',
-        28 => 'Action', 10762 => 'Kids', 10759 => 'Action & Adventure'
-    ];
-    foreach (array_slice($show['genre_ids'] ?? [], 0, 2) as $gid) {
-        if (isset($genreMap[$gid])) $genreNames[] = $genreMap[$gid];
-    }
-    $genreStr = implode(', ', $genreNames);
-    
-    return '
-    <article class="content-card" data-id="' . $id . '">
-        <a href="' . ($mediaType === 'tv' ? 'show.php?id=' : 'movie.php?id=') . $id . '" class="card-link">
-            <div class="card-poster">
-                ' . ($posterUrl ? '<img src="' . htmlspecialchars($posterUrl) . '" alt="" loading="lazy">' : '<div class="poster-placeholder"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect><circle cx="12" cy="12" r="4"></circle></svg></div>') . '
-                <span class="card-type">' . htmlspecialchars($mediaType === 'tv' ? 'TV Show' : 'Movie') . '</span>
-            </div>
-            <div class="card-info">
-                <h3 class="card-title">' . $title . '</h3>
-                <div class="card-meta">
-                    ' . ($year ? '<span class="year">' . htmlspecialchars($year) . '</span>' : '') . '
-                    <span class="rating">★ ' . htmlspecialchars($rating) . '</span>
-                </div>
-                ' . ($genreStr ? '<div class="card-genres">' . htmlspecialchars($genreStr) . '</div>' : '') . '
-            </div>
-        </a>
-    </article>';
-}
-
-function renderSection(string $title, array $items, bool $showType = true, string $viewAllUrl = ''): string {
-    if (empty($items)) return '';
-    $viewAllLink = $viewAllUrl ? '<a href="' . htmlspecialchars($viewAllUrl) . '" class="view-all">View All →</a>' : '';
-    $cards = '';
-    foreach ($items as $item) {
-        $cards .= renderShowCard($item, $showType);
-    }
-    return '
-    <section class="content-section">
-        <header class="section-header">
-            <h2 class="section-title">' . htmlspecialchars($title) . '</h2>
-            ' . $viewAllLink . '
-        </header>
-        <div class="content-carousel" data-carousel>
-            <div class="carousel-track">' . $cards . '</div>
-        </div>
-    </section>';
-}
 ?>
 
 <main class="hero" id="hero">

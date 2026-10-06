@@ -234,6 +234,45 @@ include __DIR__ . '/includes/header.php';
       <?php endif; ?>
     <?php endif; ?>
 
+    <!-- All Videos (Trailers, Teasers, Clips, Featurettes) -->
+    <?php if ($videos && !empty($videos['results'])): ?>
+      <div class="show-section">
+        <header class="section-header">
+          <h2 class="section-title">Videos</h2>
+        </header>
+        <div class="videos-grid" data-stagger>
+          <?php 
+          // Filter for YouTube videos only
+          $ytVideos = array_filter($videos['results'], fn($v) => ($v['site'] ?? '') === 'YouTube');
+          foreach (array_slice($ytVideos, 0, 12) as $vid): 
+            $type = $vid['type'] ?? 'Video';
+            $typeClass = strtolower(str_replace(' ', '-', $type));
+          ?>
+            <article class="video-card">
+              <a href="https://www.youtube.com/watch?v=<?= htmlspecialchars($vid['key']) ?>" target="_blank" rel="noopener" class="video-card-link">
+                <div class="video-card-thumb">
+                  <img src="https://img.youtube.com/vi/<?= htmlspecialchars($vid['key']) ?>/mqdefault.jpg" alt="" loading="lazy">
+                  <span class="video-type-badge <?= $typeClass ?>"><?= htmlspecialchars($type) ?></span>
+                  <span class="play-overlay">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </span>
+                </div>
+                <div class="video-card-info">
+                  <h4 class="video-card-title"><?= htmlspecialchars($vid['name']) ?></h4>
+                  <div class="video-card-meta">
+                    <span class="video-type"><?= htmlspecialchars($type) ?></span>
+                    <?php if (!empty($vid['published_at'])): ?>
+                      <span class="video-date"><?= date('M j, Y', strtotime($vid['published_at'])) ?></span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+              </a>
+            </article>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
     <!-- Seasons -->
     <?php if ($seasons && !empty($seasons['seasons'])): ?>
       <div class="show-section">

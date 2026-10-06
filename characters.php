@@ -9,50 +9,56 @@ $fullIntro = false;
 
 require_once __DIR__ . '/includes/config.php';
 
-// Check if TMDB is configured
+$apiError = '';
+$characters = [];
+
 if (!$tmdb->isConfigured()) {
-    $characters = [];
     $apiError = 'TMDB API key not configured. Please add your TMDB API key to the .env file.';
 } else {
-    // Fetch popular people known for animation/voice acting
-    $popularPeople = $tmdb->getPopularPeople(1);
-    $characters = [];
+    // Test API connection
+    $test = $tmdb->getTrendingTv('week', 1);
+    if (isset($test['error']) && strpos($test['error'], '401') !== false) {
+        $apiError = 'Invalid TMDB API key (401 Unauthorized). Please update your API key in the .env file.';
+    } else {
+        // Fetch popular people known for animation/voice acting
+        $popularPeople = $tmdb->getPopularPeople(1);
 
-    if ($popularPeople && !empty($popularPeople['results'])) {
-    foreach ($popularPeople['results'] as $person) {
-        // Filter for people known for animation/voice acting
-        $knownFor = $person['known_for'] ?? [];
-        $isAnimation = false;
-        foreach ($knownFor as $work) {
-            if (in_array(16, $work['genre_ids'] ?? []) || in_array(10751, $work['genre_ids'] ?? []) || in_array(10762, $work['genre_ids'] ?? [])) {
-                $isAnimation = true;
-                break;
+        if ($popularPeople && !empty($popularPeople['results'])) {
+            foreach ($popularPeople['results'] as $person) {
+                // Filter for people known for animation/voice acting
+                $knownFor = $person['known_for'] ?? [];
+                $isAnimation = false;
+                foreach ($knownFor as $work) {
+                    if (in_array(16, $work['genre_ids'] ?? []) || in_array(10751, $work['genre_ids'] ?? []) || in_array(10762, $work['genre_ids'] ?? [])) {
+                        $isAnimation = true;
+                        break;
+                    }
+                }
+                if ($isAnimation || in_array($person['known_for_department'] ?? '', ['Acting', 'Voice Acting'])) {
+                    $characters[] = $tmdb->formatPerson($person);
+                }
             }
         }
-        if ($isAnimation || in_array($person['known_for_department'] ?? '', ['Acting', 'Voice Acting'])) {
-            $characters[] = $tmdb->formatPerson($person);
-        }
-    }
-}
 
-    // If not enough, add more from search
-    if (count($characters) < 12) {
-        $searchResults = $tmdb->searchPerson('voice actor', 1);
-        if ($searchResults && !empty($searchResults['results'])) {
-            foreach ($searchResults['results'] as $person) {
-                if (count($characters) >= 12) break;
+        // If not enough, add more from search
+        if (count($characters) < 24) {
+            $searchResults = $tmdb->searchPerson('voice actor', 1);
+            if ($searchResults && !empty($searchResults['results'])) {
+                foreach ($searchResults['results'] as $person) {
+                    if (count($characters) >= 24) break;
+                    $characters[] = $tmdb->formatPerson($person);
+                }
+            }
+        }
+
+        // Fallback to some known voice actors if still not enough
+        $fallbackIds = [287, 12835, 13240, 16265, 31, 24218, 11364, 6384, 1813, 51329]; // Known voice actors
+        foreach ($fallbackIds as $id) {
+            if (count($characters) >= 24) break;
+            $person = $tmdb->getPersonDetails($id);
+            if ($person) {
                 $characters[] = $tmdb->formatPerson($person);
             }
-        }
-    }
-
-    // Fallback to some known voice actors if still not enough
-    $fallbackIds = [287, 12835, 13240, 16265, 31, 24218, 11364, 6384, 1813, 51329]; // Known voice actors
-    foreach ($fallbackIds as $id) {
-        if (count($characters) >= 12) break;
-        $person = $tmdb->getPersonDetails($id);
-        if ($person) {
-            $characters[] = $tmdb->formatPerson($person);
         }
     }
 }

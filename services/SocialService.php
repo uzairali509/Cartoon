@@ -98,6 +98,34 @@ function createSocialTables(PDO $pdo): void {
         
         CREATE INDEX IF NOT EXISTS idx_search_history_user ON search_history(user_id);
     ");
+
+    // Videos table for local video uploads
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS videos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tmdb_id INTEGER NOT NULL,
+            media_type TEXT NOT NULL CHECK (media_type IN ('tv', 'movie')),
+            season_number INTEGER,
+            episode_number INTEGER,
+            title TEXT NOT NULL,
+            description TEXT,
+            video_path TEXT NOT NULL,
+            thumbnail_path TEXT,
+            duration INTEGER DEFAULT 0,
+            quality TEXT DEFAULT '1080p',
+            is_primary BOOLEAN DEFAULT 0,
+            uploaded_by INTEGER,
+            status TEXT DEFAULT 'processing' CHECK (status IN ('processing', 'ready', 'failed')),
+            views INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+        );
+        
+        CREATE INDEX IF NOT EXISTS idx_videos_media ON videos(tmdb_id, media_type);
+        CREATE INDEX IF NOT EXISTS idx_videos_episode ON videos(tmdb_id, media_type, season_number, episode_number);
+        CREATE INDEX IF NOT EXISTS idx_videos_status ON videos(status);
+    ");
 }
 
 // Helper functions for social features

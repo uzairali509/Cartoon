@@ -5249,3 +5249,125 @@ a.btn-primary {
   font-size: .7rem;
   color: var(--text-muted);
 }
+
+/* ============ VIDEOS GRID (TMDB Trailers/Clips) ============ */
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-base);
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-primary);
+}
+
+.video-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.video-card-thumb {
+  position: relative;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.video-card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-base);
+}
+
+.video-card:hover .video-card-thumb img {
+  transform: scale(1.05);
+}
+
+.video-type-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  font-size: .6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+  background: rgba(0,0,0,0.8);
+  color: var(--text-primary);
+  backdrop-filter: blur(4px);
+}
+
+.video-type-badge.trailer { background: var(--accent-primary); color: #fff; }
+.video-type-badge.teaser { background: var(--accent-secondary); color: #fff; }
+.video-type-badge.clip { background: var(--accent-gold); color: #000; }
+.video-type-badge.featurette { background: #8b5cf6; color: #fff; }
+.video-type-badge.behind-the-scenes { background: #ec4899; color: #fff; }
+
+.play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: var(--transition-fast);
+}
+
+.video-card:hover .play-overlay {
+  opacity: 1;
+}
+
+.play-overlay svg {
+  color: #fff;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.video-card-info {
+  padding: 12px;
+}
+
+.video-card-title {
+  font-weight: 600;
+  font-size: .85rem;
+  line-height: 1.3;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+.video-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: .7rem;
+  color: var(--text-muted);
+}
+
+.video-type {
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--accent-primary);
+}
+
+@media (max-width: 640px) {
+  .videos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+}

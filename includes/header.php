@@ -106,7 +106,6 @@ $siteAriaHidden = $fullIntro ? 'true' : 'false';
     <!-- Search Bar -->
     <div class="nav-search" role="search">
       <form action="search.php" method="GET" class="search-form" aria-label="Search cartoons, shows, characters">
-        <label for="search-input" class="visually-hidden">Search cartoons, shows, characters</label>
         <input type="search" id="search-input" name="q" placeholder="Search cartoons, shows, characters..." 
                value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" autocomplete="off" aria-label="Search">
         <button type="submit" class="search-btn" aria-label="Search">
