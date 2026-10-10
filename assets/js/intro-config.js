@@ -1,7 +1,7 @@
 /**
  * Intro Animation Configuration
  * 
- * Replace the GIF paths below with your own cartoon GIFs.
+ * Uses GIF files from assets/gifs/ for the intro animation.
  * The animation system will automatically create cards for each entry.
  * 
  * Structure:
@@ -12,7 +12,7 @@
  */
 
 const INTRO_CARDS = [
-    // Phase 1: Chain cards (sequential zig-zag)
+    // Phase 1: Chain cards (sequential zig-zag) - using GIFs from assets/gifs/
     {
         gif: 'assets/gifs/fox.gif',
         phase: 'chain',
@@ -26,7 +26,7 @@ const INTRO_CARDS = [
     {
         gif: 'assets/gifs/cactus.gif',
         phase: 'chain',
-        index: 2
+        index: 1
     },
     {
         gif: 'assets/gifs/bear.gif',
@@ -49,9 +49,9 @@ const INTRO_CARDS = [
         index: 6
     },
 
-    // Phase 2: Collage cards (revealed after white transition)
+    // Phase 2: Collage cards (revealed after white transition) - using GIFs from assets/gifs/
     {
-        gif: 'assets/gifs/world.gif',
+        gif: 'assets/gifs/rainbow.gif',
         phase: 'collage',
         type: 'main'
     },
@@ -101,7 +101,7 @@ const INTRO_TIMING = {
         cardDelay: 0.4,        // delay between each card
         cardDuration: 0.95,    // animation duration per card
         staggerStart: 0.3,     // initial delay before first card
-        elasticDelay: 0.5      // delay before internal GIF animation
+        elasticDelay: 0.5      // delay before internal SVG animation
     },
     
     // Phase 2: Scatter

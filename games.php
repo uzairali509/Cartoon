@@ -18,7 +18,7 @@ include __DIR__ . '/includes/header.php';
 
     <!-- Game List -->
     <div class="games-list">
-      <article class="game-card featured" data-stagger>
+      <article class="game-card featured" id="starPopGame" data-stagger>
         <div class="game-preview">
           <div class="game-poster">
             <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -34,6 +34,11 @@ include __DIR__ . '/includes/header.php';
             <span class="game-stat">Time: <strong>20s</strong></span>
           </div>
           <button class="btn-primary" id="gStart">START GAME</button>
+        </div>
+        <div id="gamePlay" hidden>
+          <div class="game-hud"><span>SCORE <b id="gScore">0</b></span><span class="g-time" id="gTime">20s</span></div>
+          <div id="gameArena"></div>
+          <p class="g-hint">Tap the stars before they float away.</p>
         </div>
       </article>
 
@@ -72,31 +77,6 @@ include __DIR__ . '/includes/header.php';
         </div>
       </article>
     </div>
-
-    <!-- Star Pop Game (existing) -->
-    <article class="game-card featured" id="starPopGame" data-stagger>
-      <div class="game-preview">
-        <div class="game-poster">
-          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 9 8.26 12 2"></polygon>
-          </svg>
-        </div>
-      </div>
-      <div class="game-info">
-        <h3 class="game-title">STAR POP</h3>
-        <p class="game-description">Runaway stars are drifting out of Meadowbrook. Pop as many as you can in 20 seconds — golden ones are worth 3!</p>
-        <div class="game-meta">
-          <span class="game-stat">High Score: <strong id="gBest">0</strong></span>
-          <span class="game-stat">Time: <strong>20s</strong></span>
-        </div>
-        <button class="btn-primary" id="gStart">START GAME</button>
-      </div>
-      <div id="gamePlay" hidden>
-        <div class="game-hud"><span>SCORE <b id="gScore">0</b></span><span class="g-time" id="gTime">20s</span></div>
-        <div id="gameArena"></div>
-        <p class="g-hint">Tap the stars before they float away.</p>
-      </div>
-    </article>
   </section>
 </main>
 

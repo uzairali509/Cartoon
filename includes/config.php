@@ -40,6 +40,7 @@ $navItems = [
     ['href' => 'categories.php', 'label' => 'Movies', 'page' => 'movies'],
     ['href' => 'characters.php', 'label' => 'Characters', 'page' => 'characters'],
     ['href' => 'episodes.php', 'label' => 'Episodes', 'page' => 'episodes'],
+    ['href' => 'countries.php', 'label' => 'Countries', 'page' => 'countries'],
 ];
 
 // Current user

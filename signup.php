@@ -88,7 +88,7 @@ include __DIR__ . '/includes/header.php';
 ?>
 <main class="page-wrap auth-wrap">
   <section class="page-card auth-card">
-    <!-- Left side - Avatar Upload -->
+    <!-- Avatar Upload Section (Left on desktop, top on mobile) -->
     <div class="auth-avatar-section">
       <div class="auth-avatar-content">
         <h2>Your Avatar</h2>
@@ -119,7 +119,7 @@ include __DIR__ . '/includes/header.php';
       </div>
     </div>
     
-    <!-- Right side - Signup Form -->
+    <!-- Signup Form Section -->
     <div class="auth-form-section">
       <h1 class="page-title">Create Account</h1>
       <p class="page-sub">Fill in your details to get started</p>

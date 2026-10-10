@@ -22,7 +22,7 @@ return [
 
     // Phase 3: the collage — one big key-art card + cards around it
     'collage' => [
-        'main'  => 'world',
+        'main'  => 'rainbow',
         'sides' => ['rainbow', 'bunny', 'cat', 'star', 'controller', 'icecream', 'burger'],
         'land'  => ['rainbow', 'burger'], // landscape-oriented cards
     ],

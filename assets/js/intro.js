@@ -11,6 +11,15 @@ const $$ = s => [...document.querySelectorAll(s)];
 const vw = () => window.innerWidth, vh = () => window.innerHeight;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Check if GSAP is available
+if (typeof gsap === 'undefined') {
+    console.warn('GSAP not loaded, intro animation disabled');
+    document.body.classList.remove('intro-on');
+    document.body.classList.add('ready');
+    $('#site')?.setAttribute('aria-hidden', 'false');
+    gsap = { timeline: () => ({ to: () => {}, fromTo: () => {}, set: () => {}, addLabel: () => {}, call: () => {}, progress: () => {}, restart: () => {} }) };
+}
+
 class IntroAnimation {
     constructor() {
         this.hasIntro = !!document.getElementById('intro');
@@ -45,7 +54,11 @@ class IntroAnimation {
         this.sides = $$('.collage-card:not(.main-card)');
         this.mainCard = $('.collage-card.main-card');
         
-        if (this.chain.length === 0) return;
+        if (this.chain.length === 0 || this.sides.length === 0 || !this.mainCard) {
+            console.warn('Intro elements not found, skipping animation');
+            this.finishIntro();
+            return;
+        }
         
         this.buildIntro();
         
