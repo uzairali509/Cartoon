@@ -67,7 +67,7 @@ return [
     // Side cards surround the main card
     'collage' => [
         'main' => [
-            'gif' => 'assets/gifs/rainbow.gif',
+            'gif' => 'assets/gif/Spiderman.gif',
             'alt' => 'Rainbow',
             'landscape' => false
         ],
@@ -110,7 +110,7 @@ return [
             ],
             [
                 'gif' => 'assets/gif/Spiderman.gif',
-                'alt' => 'Burger landscape',
+                'alt' => 'Spider-Man character',
                 'landscape' => true,
                 'position' => 'bottom'
             ],
