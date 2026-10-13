@@ -13,6 +13,7 @@
 
 require_once __DIR__ . '/config.php';
 $DATA = require __DIR__ . '/data.php';
+$INTRO_CONFIG = require __DIR__ . '/intro-config.php';
 
 // Determine body class for intro
 $bodyClass = $fullIntro ? 'intro-on' : '';
@@ -38,44 +39,70 @@ $siteAriaHidden = $fullIntro ? 'true' : 'false';
   <div id="intro">
     <div id="introStage">
       <div id="introBg"></div>
+      
+      <!-- Phase 1: Chain Layer -->
       <div id="chainLayer">
-        <?php foreach ($DATA['chain'] as $scene): ?>
-          <div class="card chain-card" data-scene="<?= htmlspecialchars($scene) ?>">
+        <?php foreach ($INTRO_CONFIG['chain'] as $index => $card): ?>
+          <div class="card chain-card" 
+               data-index="<?= $index ?>"
+               data-gif="<?= htmlspecialchars($card['gif']) ?>"
+               data-rotation="<?= $card['rotation'] ?>"
+               data-enter-from="<?= $card['enterFrom'] ?>">
             <div class="art">
-              <img src="assets/gifs/<?= htmlspecialchars($scene) ?>.gif" alt="<?= htmlspecialchars($scene) ?>" 
+              <img src="<?= htmlspecialchars($card['gif']) ?>" 
+                   alt="<?= htmlspecialchars($card['alt']) ?>" 
                    style="width:100%;height:100%;object-fit:cover;" 
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj44cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
+                   onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
             </div>
           </div>
         <?php endforeach; ?>
       </div>
+      
+      <!-- Phase 2: White Panel -->
       <div id="whitePanel"></div>
+      
+      <!-- Phase 3/4: Collage Layer -->
       <div id="collageLayer">
-        <div class="card collage-card main-card" data-scene="<?= htmlspecialchars($DATA['collage']['main']) ?>">
+        <!-- Main Card -->
+        <div class="card collage-card main-card" 
+             data-gif="<?= htmlspecialchars($INTRO_CONFIG['collage']['main']['gif']) ?>"
+             data-landscape="<?= $INTRO_CONFIG['collage']['main']['landscape'] ? 'true' : 'false' ?>">
           <div class="art">
-            <img src="assets/gifs/<?= htmlspecialchars($DATA['collage']['main']) ?>.gif" alt="<?= htmlspecialchars($DATA['collage']['main']) ?>"
+            <img src="<?= htmlspecialchars($INTRO_CONFIG['collage']['main']['gif']) ?>" 
+                 alt="<?= htmlspecialchars($INTRO_CONFIG['collage']['main']['alt']) ?>"
                  style="width:100%;height:100%;object-fit:cover;"
-                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj44cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
+                 onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
           </div>
         </div>
-        <?php foreach ($DATA['collage']['sides'] as $scene): ?>
-          <div class="card collage-card<?= in_array($scene, $DATA['collage']['land']) ? ' land' : '' ?>" data-scene="<?= htmlspecialchars($scene) ?>">
+        
+        <!-- Side Cards -->
+        <?php foreach ($INTRO_CONFIG['collage']['sides'] as $index => $card): ?>
+          <div class="card collage-card<?= $card['landscape'] ? ' land' : '' ?>" 
+               data-position="<?= htmlspecialchars($card['position']) ?>"
+               data-gif="<?= htmlspecialchars($card['gif']) ?>">
             <div class="art">
-              <img src="assets/gifs/<?= htmlspecialchars($scene) ?>.gif" alt="<?= htmlspecialchars($scene) ?>"
+              <img src="<?= htmlspecialchars($card['gif']) ?>" 
+                   alt="<?= htmlspecialchars($card['alt']) ?>"
                    style="width:100%;height:100%;object-fit:cover;"
-                   onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj44cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
+                   onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';" />
             </div>
           </div>
         <?php endforeach; ?>
       </div>
+      
+      <!-- Brand Mark -->
       <div id="brandMark">
         <span class="bm-badge"><svg viewBox="0 0 24 24">
             <path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.3 6.4 19.5l1.5-6.3L3 9l6.4-.6z" fill="#FFFDF7" />
           </svg></span>
         <span class="bm-text"><?= htmlspecialchars(strtoupper($DATA['site']['name'])) ?></span>
       </div>
+      
+      <!-- Flash -->
       <div id="flash"></div>
     </div>
+    
+    <!-- Skip Button -->
     <button id="skipBtn">SKIP INTRO
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M5 12h13M13 6l6 6-6 6" />
@@ -168,14 +195,6 @@ $siteAriaHidden = $fullIntro ? 'true' : 'false';
       <?php else: ?>
         <a class="btn-pill" href="<?= $authLinks['login'] ?>">Log In</a>
         <a class="btn-primary" href="<?= $authLinks['signup'] ?>">Sign Up</a>
-      <?php endif; ?>
-      <?php if ($fullIntro): ?>
-        <button id="replayBtn" class="icon-btn" title="Replay the intro" aria-label="Replay the intro">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-            <path d="M3 3v5h5" />
-          </svg>
-        </button>
       <?php endif; ?>
     </div>
   </header>

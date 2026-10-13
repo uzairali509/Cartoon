@@ -214,8 +214,8 @@ function getFlash(): ?array {
  * @return array ['success' => bool, 'path' => string|null, 'message' => string]
  */
 function handleAvatarUpload(array $file): array {
-    $allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
-    $allowedExts = ['png', 'jpg', 'jpeg', 'webp'];
+    $allowedTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+    $allowedExts = ['png', 'jpg', 'jpeg', 'webp', 'gif'];
     $maxSize = 2 * 1024 * 1024; // 2MB
     
     // Check for upload errors
@@ -233,8 +233,16 @@ function handleAvatarUpload(array $file): array {
     $mimeType = finfo_file($finfo, $file['tmp_name']);
     finfo_close($finfo);
     
+    // Fallback: use getimagesize() if finfo fails
+    if ($mimeType === 'application/octet-stream' || $mimeType === '') {
+        $imageInfo = getimagesize($file['tmp_name']);
+        if ($imageInfo && isset($imageInfo['mime'])) {
+            $mimeType = $imageInfo['mime'];
+        }
+    }
+    
     if (!in_array($mimeType, $allowedTypes)) {
-        return ['success' => false, 'path' => null, 'message' => 'Invalid image format. Only PNG, JPG, and WEBP are allowed.'];
+        return ['success' => false, 'path' => null, 'message' => 'Invalid image format. Only PNG, JPG, WEBP, and GIF are allowed.'];
     }
     
     // Check extension
@@ -253,9 +261,11 @@ function handleAvatarUpload(array $file): array {
     
     $destination = $uploadDir . $filename;
     
-    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+    // Use copy + unlink on Windows as move_uploaded_file can fail due to permissions
+    if (!copy($file['tmp_name'], $destination)) {
         return ['success' => false, 'path' => null, 'message' => 'Failed to save uploaded file.'];
     }
+    @unlink($file['tmp_name']);
     
     return ['success' => true, 'path' => 'assets/uploads/avatars/' . $filename, 'message' => 'Avatar uploaded successfully.'];
 }

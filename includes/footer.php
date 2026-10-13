@@ -17,7 +17,8 @@
     <div id="asset-star-gold"><img src="assets/svg/star-pop-gold.svg" alt="" /></div>
   </div>
 
-  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/intro.js"></script>
+<script type="module" src="assets/js/main.js"></script>
 <script src="assets/js/search-suggestions.js" defer></script>
 </body>
 </html>

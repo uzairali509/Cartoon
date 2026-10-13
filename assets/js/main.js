@@ -4,8 +4,14 @@
   const $$ = s => [...document.querySelectorAll(s)];
   const vw = () => window.innerWidth, vh = () => window.innerHeight;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let hasIntro = false;
+  
+  function checkHasIntro() {
+    hasIntro = !!document.getElementById('intro');
+    console.log('hasIntro:', hasIntro, document.getElementById('intro'));
+    return hasIntro;
+  }
 
-  // Load star SVGs for the pop game
   let STAR = '', STAR_GOLD = '';
   async function loadStarSVGs() {
     try {
@@ -17,14 +23,12 @@
       STAR_GOLD = await starGoldResp.text();
     } catch (e) {
       console.warn('Could not load star SVGs', e);
-      // Fallback inline SVGs
       STAR = '<svg viewBox="0 0 100 100"><path d="M50 21 L59.5 44 L84.5 46 L65.5 62 L71.5 86 L50 73 L28.5 86 L34.5 62 L15.5 46 L40.5 44 Z" fill="#FFFDF7" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/><circle cx="43" cy="52" r="3.2" fill="#33261D"/><circle cx="57" cy="52" r="3.2" fill="#33261D"/><path d="M46 59 Q50 62.5 54 59" stroke="#33261D" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>';
       STAR_GOLD = '<svg viewBox="0 0 100 100"><path d="M50 21 L59.5 44 L84.5 46 L65.5 62 L71.5 86 L50 73 L28.5 86 L34.5 62 L15.5 46 L40.5 44 Z" fill="#FFC531" stroke="#33261D" stroke-width="5" stroke-linejoin="round"/><circle cx="43" cy="52" r="3.2" fill="#33261D"/><circle cx="57" cy="52" r="3.2" fill="#33261D"/><path d="M46 59 Q50 62.5 54 59" stroke="#33261D" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>';
     }
   }
   const sparkSVG = c => `<svg viewBox="0 0 20 20"><path d="M10 1L12 8 19 10 12 12 10 19 8 12 1 10 8 8Z" fill="${c}"/></svg>`;
 
-  /* ---------- Error Handling ---------- */
   window.CartoonUniverse = window.CartoonUniverse || {};
   window.CartoonUniverse.showError = function(message, container) {
     const errorEl = document.createElement('div');
@@ -85,7 +89,6 @@
     }
   };
 
-  /* ---------- toast ---------- */
   const toastEl = $('#toast');
   let toastTO;
   function toast(msg, icon = 'star') {
@@ -98,7 +101,6 @@
     toastTO = setTimeout(() => toastEl.classList.remove('show'), 2600);
   };
 
-  /* ---------- parallax ---------- */
   let paraList = [];
   function makePara(entries) {
     paraList = entries.filter(e => e.el).map(e => ({ 
@@ -106,6 +108,9 @@
       depth: 8 + (e.index % 3) * 7 
     }));
   }
+  // Expose globally for intro.js
+  window.makePara = makePara;
+  window.paraList = paraList;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { 
     makePara([]); 
   }
@@ -119,7 +124,10 @@
     { el: $('.f-star'), depth: 16 }, { el: $('.f-balloon'), depth: 30 }
   ];
 
-  /* ---------- boot ---------- */
+  function ambient() {
+    makePara(sitePara);
+  }
+
   let booted = false;
   async function init() {
     if (booted) return;
@@ -134,29 +142,56 @@
       };
       gEls.best.textContent = best;
     }
-    if (hasIntro) {
-      buildIntro();
-      makePara(chainPara);
-      gsap.to('#skipBtn', { autoAlpha: 1, delay: 1.2, duration: .4 });
-      if (reduced) { introTL.progress(1, false); finishIntro(); }
-    } else {
-      pageEntrance();
-    }
     initHomePage();
+    
+    checkHasIntro();
+    if (hasIntro && window.IntroAnimation) {
+      window.introAnimation = new window.IntroAnimation();
+      window.introAnimation.init();
+    }
   }
-  if (hasIntro) {
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(init);
-    setTimeout(init, 1400);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      checkHasIntro();
+      if (hasIntro) {
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(init);
+        } else {
+          init();
+        }
+      } else {
+        init();
+      }
+    });
   } else {
-    init();
+    checkHasIntro();
+    if (hasIntro) {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(init);
+      } else {
+        init();
+      }
+    } else {
+      init();
+    }
   }
 })();
 
-/* ---------- Home Page Animations ---------- */
+function pageEntrance() {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.set('#site', { scale: 1, autoAlpha: 1 });
+  gsap.fromTo('.site-head', { autoAlpha: 0, y: -18 }, { autoAlpha: 1, y: 0, duration: .6, ease: 'power2.out' });
+  gsap.fromTo('.hero', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 1, ease: 'power3.out', delay: .2 });
+  if (!reduced) {
+    gsap.fromTo('.floater', { autoAlpha: 0, y: 46, scale: .7 },
+      { autoAlpha: 1, y: 0, scale: 1, duration: .8, ease: 'back.out(1.8)', stagger: 0.09 }, 0.3);
+  }
+}
+
 function initHomePage() {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   
-  // Scroll Reveal for sections
   const revealSections = document.querySelectorAll('.reveal-section');
   if (revealSections.length > 0 && !reduced) {
     const revealObserver = new IntersectionObserver((entries) => {
@@ -176,7 +211,6 @@ function initHomePage() {
     revealSections.forEach(section => section.classList.add('visible'));
   }
   
-  // Floating character cards animation
   const floatChars = document.querySelectorAll('.float-char');
   if (floatChars.length > 0 && !reduced) {
     floatChars.forEach((char, i) => {
@@ -186,10 +220,8 @@ function initHomePage() {
     });
   }
   
-  // Particle system for hero
   initParticles();
   
-  // Parallax for hero elements
   if (!reduced) {
     const hero = document.querySelector('.hero');
     const sky = document.querySelector('.sky');
@@ -216,7 +248,6 @@ function initHomePage() {
     }
   }
   
-  // Character card hover effects
   const charCards = document.querySelectorAll('.character-card');
   charCards.forEach(card => {
     card.addEventListener('mouseenter', () => {
@@ -238,7 +269,6 @@ function initHomePage() {
     });
   });
   
-  // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
@@ -250,7 +280,6 @@ function initHomePage() {
   });
 }
 
-/* ---------- Particle System ---------- */
 function initParticles() {
   const particlesContainer = document.getElementById('particles');
   if (!particlesContainer) return;
@@ -286,7 +315,6 @@ function initParticles() {
     particlesContainer.appendChild(particle);
   }
   
-  // Add particle animation keyframes dynamically
   if (!document.getElementById('particle-styles')) {
     const style = document.createElement('style');
     style.id = 'particle-styles';
@@ -314,7 +342,6 @@ function initParticles() {
   }
 }
 
-/* ---------- Mobile Menu (runs after DOM ready) ---------- */
 (function() {
   const $ = s => document.querySelector(s);
   const $$ = s => [...document.querySelectorAll(s)];
@@ -353,7 +380,7 @@ function initParticles() {
     document.body.style.overflow = '';
   };
   
-  document.querySelectorAll('#mainNav .nav-btn').forEach(link => {
+  document.queryAll('#mainNav .nav-btn').forEach(link => {
     link.addEventListener('click', closeMenu);
   });
   

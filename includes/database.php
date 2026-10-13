@@ -24,10 +24,22 @@ define('DB_PASS', '');
 define('DB_CHARSET', 'utf8mb4');
 
 /**
+ * SQLite connection singleton
+ */
+$sqliteConnection = null;
+
+/**
  * Get database connection
  */
 function getConnection(): PDO {
+    global $sqliteConnection;
+    
     if (DB_TYPE === 'sqlite') {
+        // Return existing connection if available
+        if ($sqliteConnection instanceof PDO) {
+            return $sqliteConnection;
+        }
+        
         $dir = dirname(SQLITE_PATH);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
@@ -35,6 +47,15 @@ function getConnection(): PDO {
         $pdo = new PDO('sqlite:' . SQLITE_PATH);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        
+        // Disable WAL mode to prevent locking issues - must be first command
+        $pdo->exec('PRAGMA journal_mode = DELETE');
+        // Set busy timeout to 5 seconds
+        $pdo->exec('PRAGMA busy_timeout = 5000');
+        
+        // Store singleton
+        $sqliteConnection = $pdo;
+        
         return $pdo;
     } else {
         $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
