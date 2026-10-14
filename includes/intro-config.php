@@ -73,19 +73,19 @@ return [
         ],
         'sides' => [
             [
-                'gif' => 'assets/gifs/rainbow.gif',
+                'gif' => 'assets/gif/DORAEMON.gif',
                 'alt' => 'Rainbow landscape',
                 'landscape' => true,
                 'position' => 'top'
             ],
             [
-                'gif' => 'assets/gifs/bunny.gif',
+                'gif' => 'assets/gif/pecachu.gif',
                 'alt' => 'Bunny character',
                 'landscape' => false,
                 'position' => 'left'
             ],
             [
-                'gif' => 'assets/gifs/cat.gif',
+                'gif' => 'assets/gif/scoobydoo.gif',
                 'alt' => 'Cat character',
                 'landscape' => false,
                 'position' => 'right'

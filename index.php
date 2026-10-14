@@ -176,7 +176,7 @@ $floatChars = array_slice($characters, 0, 6);
           <?php endforeach; ?>
         </div>
         <div class="hero-actions">
-          <a href="<?= $featuredShow['media_type'] === 'tv' ? 'show.php?id=' : 'movie.php?id=' ?><?= $featuredShow['tmdb_id'] ?>" class="btn-primary">
+          <a href="<?= ($featuredShow['media_type'] === 'tv' ? 'show.php?id=' : 'movie.php?id=') . $featuredShow['tmdb_id'] ?>" class="btn-primary">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             <span>Watch Now</span>
           </a>
