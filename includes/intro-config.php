@@ -19,44 +19,44 @@ return [
     // Configure each card's GIF path here
     'chain' => [
         [
-            'gif' => 'assets/gif/benten.gif',
-            'alt' => 'Fox character',
+            'gif' => 'assets/gifs/benten.gif',
+            'alt' => 'Benten',
             'rotation' => -7,
             'enterFrom' => 'left'
         ],
         [
-            'gif' => 'assets/gif/kunfupanda.gif',
-            'alt' => 'Rocket',
+            'gif' => 'assets/gifs/kunfupanda.gif',
+            'alt' => 'Kung Fu Panda',
             'rotation' => 6,
             'enterFrom' => 'bottom'
         ],
         [
-            'gif' => 'assets/gif/MrBean.webp',
-            'alt' => 'Cactus',
+            'gif' => 'assets/gifs/MrBean.gif',
+            'alt' => 'Mr Bean',
             'rotation' => -5,
             'enterFrom' => 'left'
         ],
         [
-            'gif' => 'assets/gif/Puppythesellerman.gif',
-            'alt' => 'Bear character',
+            'gif' => 'assets/gifs/Puppythesellerman.gif',
+            'alt' => 'Puppy the Salesman',
             'rotation' => 7,
             'enterFrom' => 'bottom'
         ],
         [
-            'gif' => 'assets/gif/Tom&jerry.gif',
-            'alt' => 'Ice cream',
+            'gif' => 'assets/gifs/Tom&jerry.gif',
+            'alt' => 'Tom & Jerry',
             'rotation' => -6,
             'enterFrom' => 'left'
         ],
         [
-            'gif' => 'assets/gif/Frozen.gif',
-            'alt' => 'Balloon',
+            'gif' => 'assets/gifs/Frozen.gif',
+            'alt' => 'Frozen',
             'rotation' => 5,
             'enterFrom' => 'bottom'
         ],
         [
-            'gif' => 'assets/gif/Hanry.gif',
-            'alt' => 'Burger',
+            'gif' => 'assets/gifs/Henry.gif',
+            'alt' => 'Henry',
             'rotation' => -4,
             'enterFrom' => 'left'
         ],
@@ -67,50 +67,50 @@ return [
     // Side cards surround the main card
     'collage' => [
         'main' => [
-            'gif' => 'assets/gif/Spiderman.gif',
-            'alt' => 'Rainbow',
+            'gif' => 'assets/gifs/Spiderman.gif',
+            'alt' => 'Spider-Man',
             'landscape' => false
         ],
         'sides' => [
             [
-                'gif' => 'assets/gif/DORAEMON.gif',
-                'alt' => 'Rainbow landscape',
+                'gif' => 'assets/gifs/DORAEMON.gif',
+                'alt' => 'Doraemon',
                 'landscape' => true,
                 'position' => 'top'
             ],
             [
-                'gif' => 'assets/gif/pecachu.gif',
-                'alt' => 'Bunny character',
+                'gif' => 'assets/gifs/picachu.gif',
+                'alt' => 'Pikachu',
                 'landscape' => false,
                 'position' => 'left'
             ],
             [
-                'gif' => 'assets/gif/scoobydoo.gif',
-                'alt' => 'Cat character',
+                'gif' => 'assets/gifs/scoobydoo.gif',
+                'alt' => 'Scooby Doo',
                 'landscape' => false,
                 'position' => 'right'
             ],
             [
-                'gif' => 'assets/gifs/star.gif',
-                'alt' => 'Star character',
+                'gif' => 'assets/gifs/spongebob.gif',
+                'alt' => 'SpongeBob',
                 'landscape' => false,
                 'position' => 'bottom-left'
             ],
             [
-                'gif' => 'assets/gifs/controller.gif',
-                'alt' => 'Game controller',
+                'gif' => 'assets/gifs/powerpuffgirls.gif',
+                'alt' => 'Powerpuff Girls',
                 'landscape' => false,
                 'position' => 'bottom-right'
             ],
             [
-                'gif' => 'assets/gifs/icecream.gif',
-                'alt' => 'Ice cream',
+                'gif' => 'assets/gifs/bugsbunny.gif',
+                'alt' => 'Bugs Bunny',
                 'landscape' => false,
                 'position' => 'bottom'
             ],
             [
-                'gif' => 'assets/gif/Spiderman.gif',
-                'alt' => 'Spider-Man character',
+                'gif' => 'assets/gifs/generax.gif',
+                'alt' => 'Generax',
                 'landscape' => true,
                 'position' => 'bottom'
             ],
