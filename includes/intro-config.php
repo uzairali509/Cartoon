@@ -21,49 +21,49 @@ return [
     'chain' => [
         [
             'scene' => 'fox',
-            'gif'   => 'assets/gif/fox.gif',
+            'gif'   => 'assets/gif/benten.gif',
             'alt'   => 'Fox',
             'rotation' => -7,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'rocket',
-            'gif'   => 'assets/gif/rocket.gif',
+            'gif'   => 'assets/gif/bugsbunny.gif',
             'alt'   => 'Rocket',
             'rotation' => 6,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'cactus',
-            'gif'   => 'assets/gif/cactus.gif',
+            'gif'   => 'assets/gif/DORAEMON.gif',
             'alt'   => 'Cactus',
             'rotation' => -5,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'bear',
-            'gif'   => 'assets/gif/bear.gif',
+            'gif'   => 'assets/gif/Frozen.gif',
             'alt'   => 'Bear',
             'rotation' => 7,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'icecream',
-            'gif'   => 'assets/gif/icecream.gif',
+            'gif'   => 'assets/gif/generax.gif',
             'alt'   => 'Ice Cream',
             'rotation' => -6,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'balloon',
-            'gif'   => 'assets/gif/balloon.gif',
+            'gif'   => 'assets/gif/Hanry.gif',
             'alt'   => 'Balloon',
             'rotation' => 5,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'burger',
-            'gif'   => 'assets/gif/burger.gif',
+            'gif'   => 'assets/gif/kunfupanda.gif',
             'alt'   => 'Burger',
             'rotation' => -4,
             'enterFrom' => 'left'
@@ -74,56 +74,56 @@ return [
     'collage' => [
         'main' => [
             'scene'   => 'rainbow',
-            'gif'     => 'assets/gif/rainbow.gif',
+            'gif'     => 'assets/gif/Spiderman.gif',
             'alt'     => 'Rainbow',
             'landscape' => false,
         ],
         'sides' => [
             [
                 'scene'   => 'rainbow',
-                'gif'     => 'assets/gif/rainbow.gif',
+                'gif'     => 'assets/gif/MrBean.webp',
                 'alt'     => 'Rainbow',
                 'landscape' => true,
                 'position'  => 'top',
             ],
             [
                 'scene'   => 'bunny',
-                'gif'     => 'assets/gif/bunny.gif',
+                'gif'     => 'assets/gif/oggy.gif',
                 'alt'     => 'Bunny',
                 'landscape' => false,
                 'position'  => 'left',
             ],
             [
                 'scene'   => 'cat',
-                'gif'     => 'assets/gif/cat.gif',
+                'gif'     => 'assets/gif/pecachu.gif',
                 'alt'     => 'Cat',
                 'landscape' => false,
                 'position'  => 'right',
             ],
             [
                 'scene'   => 'star',
-                'gif'     => 'assets/gif/star.gif',
+                'gif'     => 'assets/gif/powerpufgirls.gif',
                 'alt'     => 'Star',
                 'landscape' => false,
                 'position'  => 'bottom-left',
             ],
             [
                 'scene'   => 'controller',
-                'gif'     => 'assets/gif/controller.gif',
+                'gif'     => 'assets/gif/Puppythesellerman.gif',
                 'alt'     => 'Controller',
                 'landscape' => false,
                 'position'  => 'bottom-right',
             ],
             [
                 'scene'   => 'icecream',
-                'gif'     => 'assets/gif/icecream.gif',
+                'gif'     => 'assets/gif/scoobydoo.gif',
                 'alt'     => 'Ice Cream',
                 'landscape' => false,
                 'position'  => 'bottom',
             ],
             [
                 'scene'   => 'burger',
-                'gif'     => 'assets/gif/burger.gif',
+                'gif'     => 'assets/gif/Tom&Jerry.gif',
                 'alt'     => 'Burger',
                 'landscape' => true,
                 'position'  => 'bottom',
