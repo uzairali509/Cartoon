@@ -7,6 +7,113 @@
  */
 
 function createSocialTables(PDO $pdo): void {
+    if (DB_TYPE === 'mysql') {
+        // ---- MySQL / MariaDB (XAMPP) schema ----
+        $statements = [
+            "CREATE TABLE IF NOT EXISTS favorites (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                tmdb_id INT NOT NULL,
+                media_type ENUM('tv','movie') NOT NULL,
+                title VARCHAR(255) NOT NULL,
+                poster_path VARCHAR(500) DEFAULT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE KEY uq_favorites (user_id, tmdb_id, media_type),
+                KEY idx_favorites_user (user_id),
+                KEY idx_favorites_media (tmdb_id, media_type),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+            "CREATE TABLE IF NOT EXISTS likes (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                tmdb_id INT NOT NULL,
+                media_type ENUM('tv','movie') NOT NULL,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE KEY uq_likes (user_id, tmdb_id, media_type),
+                KEY idx_likes_user (user_id),
+                KEY idx_likes_media (tmdb_id, media_type),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+            "CREATE TABLE IF NOT EXISTS watch_history (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                tmdb_id INT NOT NULL,
+                media_type ENUM('tv','movie') NOT NULL,
+                season_number INT DEFAULT NULL,
+                episode_number INT DEFAULT NULL,
+                episode_id INT DEFAULT NULL,
+                title VARCHAR(255) NOT NULL,
+                poster_path VARCHAR(500) DEFAULT NULL,
+                progress DOUBLE DEFAULT 0,
+                completed TINYINT(1) DEFAULT 0,
+                watched_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE KEY uq_watch_history (user_id, episode_id),
+                KEY idx_watch_history_user (user_id),
+                KEY idx_watch_history_media (tmdb_id, media_type),
+                KEY idx_watch_history_episode (episode_id),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+            "CREATE TABLE IF NOT EXISTS user_preferences (
+                user_id INT PRIMARY KEY,
+                theme VARCHAR(20) DEFAULT 'dark',
+                language VARCHAR(10) DEFAULT 'en',
+                autoplay TINYINT(1) DEFAULT 1,
+                subtitles TINYINT(1) DEFAULT 0,
+                subtitle_language VARCHAR(10) DEFAULT 'en',
+                video_quality VARCHAR(10) DEFAULT 'auto',
+                email_notifications TINYINT(1) DEFAULT 1,
+                push_notifications TINYINT(1) DEFAULT 1,
+                mature_content TINYINT(1) DEFAULT 0,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+            "CREATE TABLE IF NOT EXISTS search_history (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                query VARCHAR(255) NOT NULL,
+                results_count INT DEFAULT 0,
+                searched_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                KEY idx_search_history_user (user_id),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+
+            "CREATE TABLE IF NOT EXISTS videos (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                tmdb_id INT NOT NULL,
+                media_type ENUM('tv','movie') NOT NULL,
+                season_number INT DEFAULT NULL,
+                episode_number INT DEFAULT NULL,
+                title VARCHAR(255) NOT NULL,
+                description TEXT,
+                video_path VARCHAR(500) NOT NULL,
+                thumbnail_path VARCHAR(500) DEFAULT NULL,
+                duration INT DEFAULT 0,
+                quality VARCHAR(10) DEFAULT '1080p',
+                is_primary TINYINT(1) DEFAULT 0,
+                uploaded_by INT DEFAULT NULL,
+                status ENUM('processing','ready','failed') DEFAULT 'processing',
+                views INT DEFAULT 0,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                KEY idx_videos_media (tmdb_id, media_type),
+                KEY idx_videos_episode (tmdb_id, media_type, season_number, episode_number),
+                KEY idx_videos_status (status),
+                FOREIGN KEY (uploaded_by) REFERENCES users(id) ON DELETE SET NULL
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+        ];
+        foreach ($statements as $sql) {
+            $pdo->exec($sql);
+        }
+        return;
+    }
+
+    // ---- SQLite schema (development fallback) ----
     // Favorites table
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS favorites (
@@ -133,7 +240,7 @@ function createSocialTables(PDO $pdo): void {
 function addFavorite(PDO $pdo, int $userId, int $tmdbId, string $mediaType, string $title, ?string $posterPath = null): array {
     try {
         $stmt = $pdo->prepare("
-            INSERT OR REPLACE INTO favorites (user_id, tmdb_id, media_type, title, poster_path, created_at)
+            REPLACE INTO favorites (user_id, tmdb_id, media_type, title, poster_path, created_at)
             VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
         ");
         $stmt->execute([$userId, $tmdbId, $mediaType, $title, $posterPath]);
@@ -155,7 +262,7 @@ function removeFavorite(PDO $pdo, int $userId, int $tmdbId, string $mediaType): 
     }
 }
 
-function getFavorites(PDO $pdo, int $userId, string $mediaType = null): array {
+function getFavorites(PDO $pdo, int $userId, ?string $mediaType = null): array {
     $sql = "SELECT * FROM favorites WHERE user_id = ?";
     $params = [$userId];
     
@@ -212,7 +319,7 @@ function getLikeCount(PDO $pdo, int $tmdbId, string $mediaType): int {
     return (int)$stmt->fetchColumn();
 }
 
-function getUserLikes(PDO $pdo, int $userId, string $mediaType = null): array {
+function getUserLikes(PDO $pdo, int $userId, ?string $mediaType = null): array {
     $sql = "SELECT * FROM likes WHERE user_id = ?";
     $params = [$userId];
     
@@ -231,7 +338,7 @@ function getUserLikes(PDO $pdo, int $userId, string $mediaType = null): array {
 function addToWatchHistory(PDO $pdo, int $userId, array $data): array {
     try {
         $stmt = $pdo->prepare("
-            INSERT OR REPLACE INTO watch_history 
+            REPLACE INTO watch_history 
             (user_id, tmdb_id, media_type, season_number, episode_number, episode_id, title, poster_path, progress, completed, watched_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
         ");
@@ -330,9 +437,15 @@ function updateUserPreferences(PDO $pdo, int $userId, array $preferences): array
         }
         
         $fields[] = 'updated_at = CURRENT_TIMESTAMP';
-        $sql = "INSERT INTO user_preferences (user_id, " . implode(', ', $allowed) . ", created_at, updated_at)
-                VALUES (" . implode(', ', array_merge(['?'], array_fill(0, count($allowed), '?'))) . ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-                ON CONFLICT(user_id) DO UPDATE SET " . implode(', ', $fields);
+        if (DB_TYPE === 'mysql') {
+            $sql = "INSERT INTO user_preferences (user_id, " . implode(', ', $allowed) . ", created_at, updated_at)
+                    VALUES (" . implode(', ', array_merge(['?'], array_fill(0, count($allowed), '?'))) . ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON DUPLICATE KEY UPDATE " . implode(', ', $fields);
+        } else {
+            $sql = "INSERT INTO user_preferences (user_id, " . implode(', ', $allowed) . ", created_at, updated_at)
+                    VALUES (" . implode(', ', array_merge(['?'], array_fill(0, count($allowed), '?'))) . ", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+                    ON CONFLICT(user_id) DO UPDATE SET " . implode(', ', $fields);
+        }
         
         $stmt = $pdo->prepare($sql);
         $stmt->execute($values);

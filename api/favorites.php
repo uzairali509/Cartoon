@@ -20,6 +20,26 @@ $pdo = getConnection();
 
 try {
     switch ($action) {
+        case 'toggle':
+            // Add if not favorited, remove if already favorited
+            $tmdbId = (int)($input['tmdb_id'] ?? 0);
+            $mediaType = ($input['media_type'] ?? 'tv') === 'movie' ? 'movie' : 'tv';
+            $title = trim($input['title'] ?? '') ?: 'Untitled';
+            $posterPath = $input['poster_path'] ?? null;
+            
+            if (!$tmdbId) {
+                throw new Exception('Missing TMDB ID');
+            }
+            
+            if (isFavorite($pdo, $currentUser['id'], $tmdbId, $mediaType)) {
+                removeFavorite($pdo, $currentUser['id'], $tmdbId, $mediaType);
+                echo json_encode(['success' => true, 'favorited' => false, 'message' => 'Removed from favorites']);
+            } else {
+                addFavorite($pdo, $currentUser['id'], $tmdbId, $mediaType, $title, $posterPath);
+                echo json_encode(['success' => true, 'favorited' => true, 'message' => 'Added to favorites']);
+            }
+            break;
+            
         case 'add':
             $tmdbId = (int)($input['tmdb_id'] ?? 0);
             $mediaType = $input['media_type'] ?? 'tv';

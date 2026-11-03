@@ -40,7 +40,7 @@ if (!$video) {
 $completed = $progress >= 0.95 ? 1 : 0;
 
 $stmt = $pdo->prepare("
-    INSERT OR REPLACE INTO watch_history 
+    REPLACE INTO watch_history 
     (user_id, tmdb_id, media_type, season_number, episode_number, episode_id, title, poster_path, progress, completed, watched_at, updated_at)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 ");

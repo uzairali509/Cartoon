@@ -163,7 +163,7 @@ include __DIR__ . '/includes/header.php';
     <!-- Video Actions -->
     <div class="video-actions">
       <?php if ($currentUser): ?>
-        <button class="btn-pill favorite-btn" data-video-id="<?= $videoId ?>" data-media-type="<?= $video['media_type'] ?>">
+        <button class="btn-pill favorite-btn" data-tmdb-id="<?= (int)$video['tmdb_id'] ?>" data-media-type="<?= $video['media_type'] ?>" data-title="<?= htmlspecialchars($video['title']) ?>">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
           <span>ADD TO FAVORITES</span>
         </button>

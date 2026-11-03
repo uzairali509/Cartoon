@@ -26,8 +26,20 @@ if (!$videoId || empty($comment)) {
 
 // Create comments table if not exists
 $pdo = getConnection();
-$pdo->exec("
-    CREATE TABLE IF NOT EXISTS video_comments (
+if (DB_TYPE === 'mysql') {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS video_comments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        video_id INT NOT NULL,
+        user_id INT NOT NULL,
+        comment TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_video_comments_video (video_id),
+        INDEX idx_video_comments_user (user_id),
+        FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
+} else {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS video_comments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         video_id INTEGER NOT NULL,
         user_id INTEGER NOT NULL,
@@ -35,10 +47,10 @@ $pdo->exec("
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (video_id) REFERENCES videos(id) ON DELETE CASCADE,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-    );
-    CREATE INDEX IF NOT EXISTS idx_video_comments_video ON video_comments(video_id);
-    CREATE INDEX IF NOT EXISTS idx_video_comments_user ON video_comments(user_id);
-");
+    )");
+    $pdo->exec("CREATE INDEX IF NOT EXISTS idx_video_comments_video ON video_comments(video_id)");
+    $pdo->exec("CREATE INDEX IF NOT EXISTS idx_video_comments_user ON video_comments(user_id)");
+}
 
 $stmt = $pdo->prepare("INSERT INTO video_comments (video_id, user_id, comment) VALUES (?, ?, ?)");
 $stmt->execute([$videoId, $currentUser['id'], $comment]);

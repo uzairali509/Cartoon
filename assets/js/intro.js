@@ -18,16 +18,16 @@ if (typeof gsap === 'undefined') {
     document.body.classList.remove('intro-on');
     document.body.classList.add('ready');
     $('#site')?.setAttribute('aria-hidden', 'false');
-    gsap = { 
-        timeline: () => ({ 
-            to: () => {}, 
-            fromTo: () => {}, 
-            set: () => {}, 
-            addLabel: () => {}, 
-            call: () => {}, 
-            progress: () => {}, 
-            restart: () => {} 
-        }) 
+    gsap = {
+        timeline: () => ({
+            to: () => { },
+            fromTo: () => { },
+            set: () => { },
+            addLabel: () => { },
+            call: () => { },
+            progress: () => { },
+            restart: () => { }
+        })
     };
 }
 
@@ -38,7 +38,7 @@ function parseIntroConfig() {
     const chainCards = $$('.chain-card');
     const collageMain = $('.collage-card.main-card');
     const collageSides = $$('.collage-card:not(.main-card)');
-    
+
     // Parse chain cards
     const chain = chainCards.map(card => ({
         el: card,
@@ -47,7 +47,7 @@ function parseIntroConfig() {
         enterFrom: card.dataset.enterFrom || 'left',
         art: card.querySelector('.art img')
     }));
-    
+
     // Parse main collage card
     const mainCard = collageMain ? {
         el: collageMain,
@@ -56,7 +56,7 @@ function parseIntroConfig() {
         landscape: collageMain.dataset.landscape === 'true',
         art: collageMain.querySelector('.art img')
     } : null;
-    
+
     // Parse side collage cards
     const sides = collageSides.map(card => ({
         el: card,
@@ -66,7 +66,7 @@ function parseIntroConfig() {
         landscape: card.classList.contains('land'),
         art: card.querySelector('.art img')
     }));
-    
+
     return { chain, mainCard, sides };
 }
 
@@ -104,13 +104,13 @@ function getCollagePositions(P) {
 function getCollageOffsets(W, H) {
     const X = f => (f - .5) * W;
     const Y = f => (f - .5) * H;
-    
+
     return {
-        top: { sx: X(.5), sy: -H * .85 }, 
+        top: { sx: X(.5), sy: -H * .85 },
         left: { sx: -W * .8, sy: Y(.45) },
-        right: { sx: W * .8, sy: Y(.45) }, 
+        right: { sx: W * .8, sy: Y(.45) },
         bl: { sx: -W * .75, sy: H * .8 },
-        br: { sx: W * .75, sy: H * .8 }, 
+        br: { sx: W * .75, sy: H * .8 },
         bottom: { sx: X(.5), sy: H * .95 }
     };
 }
@@ -133,7 +133,7 @@ class IntroAnimation {
         this.P = false;
         this.X = null;
         this.Y = null;
-        
+
         // Bind methods
         this.finishIntro = this.finishIntro.bind(this);
         this.startCollageFloats = this.startCollageFloats.bind(this);
@@ -143,48 +143,48 @@ class IntroAnimation {
 
     init() {
         if (!this.hasIntro) return;
-        
+
         const config = parseIntroConfig();
         this.chain = config.chain;
         this.sides = config.sides;
         this.mainCard = config.mainCard;
-        
+
         if (this.chain.length === 0 || this.sides.length === 0 || !this.mainCard) {
             console.warn('Intro elements not found, skipping animation');
             this.finishIntro();
             return;
         }
-        
+
         this.buildIntro();
-        
+
         // Set up parallax for chain cards
-        this.chainPara = this.chain.map((c, i) => ({ 
-            el: c.art, 
-            depth: 8 + (i % 3) * 7 
+        this.chainPara = this.chain.map((c, i) => ({
+            el: c.art,
+            depth: 8 + (i % 3) * 7
         }));
-        
+
         // Set up skip button
         const skipBtn = $('#skipBtn');
         if (skipBtn) {
-            skipBtn.addEventListener('click', () => { 
-                this.introTL.progress(1, false); 
-                this.finishIntro(); 
+            skipBtn.addEventListener('click', () => {
+                this.introTL.progress(1, false);
+                this.finishIntro();
             });
         }
-        
+
         // Set up replay button
         const replayBtn = $('#replayBtn');
         if (replayBtn) {
             replayBtn.addEventListener('click', () => this.replayIntro());
         }
-        
+
         // Start animation
         makePara(this.chainPara);
         gsap.to('#skipBtn', { autoAlpha: 1, delay: 1.2, duration: .4 });
-        
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) { 
-            this.introTL.progress(1, false); 
-            this.finishIntro(); 
+
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.introTL.progress(1, false);
+            this.finishIntro();
         }
     }
 
@@ -192,14 +192,14 @@ class IntroAnimation {
         const chain = this.chain;
         const sideEls = this.sides.map(s => s.el);
         const mainCard = this.mainCard.el;
-        
+
         // Initial state setup
         chain.forEach((c, i) => gsap.set(c.el, { xPercent: -50, yPercent: -50, autoAlpha: 0, zIndex: 1 + i }));
         sideEls.forEach((c, i) => gsap.set(c, { xPercent: -50, yPercent: -50, autoAlpha: 0, zIndex: 20 + i }));
         gsap.set(mainCard, { xPercent: -50, yPercent: -50, autoAlpha: 0, zIndex: 50 });
-        
+
         this.collageAll = [mainCard, ...sideEls];
-        
+
         gsap.set('#whitePanel', { xPercent: -50, yPercent: -50, scale: 0, rotation: -10 });
         gsap.set('#brandMark', { xPercent: -50, yPercent: -50 });
         gsap.set(['.t-line', '.tagline', '.ticket', '.site-head'], { autoAlpha: 0 });
@@ -211,7 +211,7 @@ class IntroAnimation {
         this.P = this.W / this.H < .85;
         this.X = f => (f - .5) * this.W;
         this.Y = f => (f - .5) * this.H;
-        
+
         this.introTL = gsap.timeline({ delay: .25, onComplete: this.finishIntro });
 
         /* PHASE 1 — the card chain */
@@ -219,30 +219,30 @@ class IntroAnimation {
         const stepY = this.P ? .125 : .107;
         this.rots = chain.map(c => c.rotation);
         this.chainPos = chain.map((c, i) => ({
-            fx: .84 - i * stepX, 
+            fx: .84 - i * stepX,
             fy: (this.P ? .13 : .16) + i * stepY,
-            tx: this.X(.84 - i * stepX), 
+            tx: this.X(.84 - i * stepX),
             ty: this.Y((this.P ? .13 : .16) + i * stepY)
         }));
-        
+
         const chainArray = Array.from(chain);
         chainArray.forEach((card, i) => {
             const p = this.chainPos[i];
             const fromLeft = card.enterFrom === 'left';
             this.introTL.set(card.el, {
-                x: fromLeft ? -this.W * 1.15 : p.tx, 
+                x: fromLeft ? -this.W * 1.15 : p.tx,
                 y: fromLeft ? p.ty : this.H * 1.2,
-                rotation: this.rots[i] * 2.3, 
-                scale: .92, 
+                rotation: this.rots[i] * 2.3,
+                scale: .92,
                 autoAlpha: 1
             }, 0);
-            this.introTL.to(card.el, { 
-                x: p.tx, 
-                y: p.ty, 
-                rotation: this.rots[i], 
-                scale: 1, 
-                duration: .95, 
-                ease: 'power3.out' 
+            this.introTL.to(card.el, {
+                x: p.tx,
+                y: p.ty,
+                rotation: this.rots[i],
+                scale: 1,
+                duration: .95,
+                ease: 'power3.out'
             }, .3 + i * .4);
             this.introTL.fromTo(card.art,
                 { scaleX: 1.16, scaleY: .9 },
@@ -255,17 +255,17 @@ class IntroAnimation {
         chainArray.forEach((card, i) => {
             const p = this.chainPos[i];
             this.introTL.to(card.el, {
-                x: p.tx + (p.fx - .5) * this.W * 1.6, 
+                x: p.tx + (p.fx - .5) * this.W * 1.6,
                 y: p.ty + (p.fy - .5) * this.H * 1.6,
-                rotation: this.rots[i] + (i % 2 ? 30 : -36), 
-                scale: .8, 
-                duration: 0.9, 
+                rotation: this.rots[i] + (i % 2 ? 30 : -36),
+                scale: .8,
+                duration: 0.9,
                 ease: 'power2.in'
             }, 'scatter+=' + i * 0.03);
-            this.introTL.to(card.el, { 
-                autoAlpha: 0, 
-                duration: 0.32, 
-                ease: 'none' 
+            this.introTL.to(card.el, {
+                autoAlpha: 0,
+                duration: 0.32,
+                ease: 'none'
             }, 'scatter+=' + (0.5 + i * .02));
         });
         this.introTL.fromTo('#introStage', { scale: 1 }, { scale: 1.06, duration: 1, ease: 'power2.inOut', immediateRender: false }, 'scatter+=.15');
@@ -283,7 +283,7 @@ class IntroAnimation {
         // Build sides array from actual DOM elements with positions
         const defs = getCollagePositions(this.P);
         const offs = getCollageOffsets(this.W, this.H);
-        
+
         this.sides = defs.map(d => {
             // Find matching side element by scene key
             const side = this.sides.find(s => s.scene === d.key);
@@ -292,43 +292,43 @@ class IntroAnimation {
                 console.warn('Intro: no collage side card for scene key:', d.key);
                 return null;
             }
-            return { 
-                ...d, 
-                el, 
-                tx: this.X(d.fx), 
-                ty: this.Y(d.fy), 
-                ...offs[d.dir] 
+            return {
+                ...d,
+                el,
+                tx: this.X(d.fx),
+                ty: this.Y(d.fy),
+                ...offs[d.dir]
             };
         }).filter(Boolean);
-        
+
         this.introTL.addLabel('reveal', 'white+=' + 1.02);
         this.sides.forEach((d, i) => {
-            this.introTL.set(d.el, { 
-                x: d.sx, 
-                y: d.sy, 
-                rotation: d.rot * 2.2, 
-                scale: 1.28, 
-                autoAlpha: 1 
+            this.introTL.set(d.el, {
+                x: d.sx,
+                y: d.sy,
+                rotation: d.rot * 2.2,
+                scale: 1.28,
+                autoAlpha: 1
             }, 'reveal');
-            this.introTL.to(d.el, { 
-                x: d.tx * .45, 
-                y: d.ty * .45, 
-                scale: 1.16, 
-                duration: 0.5, 
-                ease: 'power3.out' 
+            this.introTL.to(d.el, {
+                x: d.tx * .45,
+                y: d.ty * .45,
+                scale: 1.16,
+                duration: 0.5,
+                ease: 'power3.out'
             }, 'reveal+=' + (.05 + i * 0.11));
-            this.introTL.to(d.el, { 
-                x: d.tx, 
-                y: d.ty, 
-                scale: d.s, 
-                rotation: d.rot, 
-                rotationX: d.rx || 0, 
-                rotationY: d.ry || 0, 
-                duration: 0.55, 
-                ease: 'back.out(1.5)' 
+            this.introTL.to(d.el, {
+                x: d.tx,
+                y: d.ty,
+                scale: d.s,
+                rotation: d.rot,
+                rotationX: d.rx || 0,
+                rotationY: d.ry || 0,
+                duration: 0.55,
+                ease: 'back.out(1.5)'
             }, 'reveal+=' + (.5 + i * 0.11));
         });
-        
+
         this.introTL.fromTo(this.mainCard.el, { scale: 0, rotation: 12, x: 0, y: 0, autoAlpha: 1 },
             { scale: 1, rotation: -1.5, duration: .7, ease: 'back.out(1.6)', immediateRender: false }, 'reveal+=' + 0.78);
 
@@ -341,17 +341,17 @@ class IntroAnimation {
         this.introTL.call(this.killCollageFloats, null, 'boom');
         this.sides.forEach((d, i) => {
             this.introTL.to(d.el, {
-                x: d.tx + (d.fx - .5) * this.W * 2.1, 
+                x: d.tx + (d.fx - .5) * this.W * 2.1,
                 y: d.ty + (d.fy - .5) * this.H * 2.1,
-                rotation: d.rot + (i % 2 ? 46 : -38), 
+                rotation: d.rot + (i % 2 ? 46 : -38),
                 scale: .45,
-                duration: 0.95 + (i % 3) * .14, 
+                duration: 0.95 + (i % 3) * .14,
                 ease: 'power2.in'
             }, 'boom');
-            this.introTL.to(d.el, { 
-                autoAlpha: 0, 
-                duration: .3, 
-                ease: 'none' 
+            this.introTL.to(d.el, {
+                autoAlpha: 0,
+                duration: .3,
+                ease: 'none'
             }, 'boom+=' + (0.55 + (i % 3) * 0.07));
         });
         this.introTL.to(this.mainCard.el, { scale: 2.5, autoAlpha: 0, rotation: 10, duration: 0.55, ease: 'power2.in' }, 'boom+=' + 0.55);
@@ -383,19 +383,19 @@ class IntroAnimation {
         this.killCollageFloats();
         this.collageAll.forEach((el, i) => {
             this.floatTweens.push(gsap.to(el.querySelector('.art svg, .art img'), {
-                y: i % 2 ? 9 : -9, 
+                y: i % 2 ? 9 : -9,
                 rotation: i % 2 ? 1.8 : -1.8,
-                duration: 1.9 + (i % 3) * .45, 
-                yoyo: true, 
+                duration: 1.9 + (i % 3) * .45,
+                yoyo: true,
                 repeat: -1,
-                ease: 'sine.inOut', 
+                ease: 'sine.inOut',
                 delay: (i % 4) * .18
             }));
         });
     }
 
     killCollageFloats() {
-        this.floatTweens.forEach(t => t.kill()); 
+        this.floatTweens.forEach(t => t.kill());
         this.floatTweens = [];
         gsap.set('.collage-card .art svg, .collage-card .art img', { y: 0, rotation: 0 });
     }
@@ -417,7 +417,11 @@ class IntroAnimation {
             toast('Welcome to Cartoon Universe!');
             history.replaceState(null, '', ' ');
         }
+
+        gsap.set('#site', { clearProps: 'transform,will-change' });
     }
+
+
 
     replayIntro() {
         this.finished = false;

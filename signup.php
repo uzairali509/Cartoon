@@ -68,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             $result = registerUser($name, $email, $password, $avatarPath);
             
             if ($result['success']) {
-                setUserSession($result['user']);
-                setFlash('ok', $result['message']);
-                header('Location: dashboard.php');
+                // Do NOT auto-login: send the user to the login page first
+                setFlash('ok', 'Account created successfully! Please log in to continue.');
+                header('Location: login.php');
                 exit;
             } else {
                 $errors[] = $result['message'];
@@ -111,8 +111,9 @@ include __DIR__ . '/includes/header.php';
             </div>
           </label>
           
-          <input type="file" id="picture" name="picture" accept="image/png,image/jpeg,image/webp" hidden required>
-          
+          <!-- NOTE: this input was moved INSIDE the <form> below. A file input that
+               sits outside the <form> tag is never submitted, so the server always
+               saw "no file" and showed: Please choose an avatar image. -->
           <div class="upload-hint">PNG, JPG or WEBP (max 2MB) <span style="color: var(--accent-primary);">*</span></div>
           <div id="imageValidationMessage" class="form-message" style="display: none;"></div>
         </div>
@@ -135,6 +136,11 @@ include __DIR__ . '/includes/header.php';
       
       <form method="post" action="" class="auth-fields" enctype="multipart/form-data">
         <?= csrfField() ?>
+        
+        <!-- No "required" here: a hidden required input would make Chrome silently
+             block submission ("not focusable" console error) and the custom
+             validation messages would never show. The JS below validates instead. -->
+        <input type="file" id="picture" name="picture" accept="image/png,image/jpeg,image/webp" hidden>
         
         <label>
           YOUR NAME

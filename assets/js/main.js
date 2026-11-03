@@ -779,3 +779,114 @@ function initParticles() {
   
   console.log('Featured slider initialized');
 })();
+/* ============================================================
+   FAVORITE & LIKE BUTTONS — API wiring
+   (These buttons existed on show/movie/watch/index pages but had
+   no click handlers, so clicking them did nothing.)
+   ============================================================ */
+(() => {
+  'use strict';
+
+  const toastEl = document.getElementById('toast');
+  let toastTO;
+  const toast = (msg, icon = 'star') => {
+    if (!toastEl) return;
+    toastEl.innerHTML = (icon === 'play'
+      ? '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>'
+      : '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.6 5.9 6.4.6-4.9 4.2 1.5 6.3L12 16.3 6.4 19.5l1.5-6.3L3 9l6.4-.6z" fill="currentColor"/></svg>')
+      + `<span>${msg}</span>`;
+    toastEl.classList.add('show');
+    clearTimeout(toastTO);
+    toastTO = setTimeout(() => toastEl.classList.remove('show'), 2600);
+  };
+
+  const getPageTitle = () =>
+    (document.querySelector('.show-title, .movie-title, .detail-title, h1')?.textContent || '').trim();
+
+  const requireLoginRedirect = () => {
+    window.location.href = 'login.php?redirect=' + encodeURIComponent(location.pathname + location.search);
+  };
+
+  const setHeartState = (btn, active) => {
+    btn.classList.toggle('active', active);
+    const path = btn.querySelector('svg path');
+    if (path) path.setAttribute('fill', active ? 'currentColor' : 'none');
+  };
+
+  async function toggleFavorite(btn) {
+    const mediaType = btn.dataset.mediaType || 'tv';
+    if (!['tv', 'movie'].includes(mediaType)) {
+      toast('Only shows and movies can be favorited right now');
+      return;
+    }
+    const tmdbId = btn.dataset.tmdbId || btn.dataset.showId || btn.dataset.movieId;
+    if (!tmdbId) return;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch('api/favorites.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'toggle',
+          tmdb_id: Number(tmdbId),
+          media_type: mediaType,
+          title: btn.dataset.title || getPageTitle() || document.title.split('—')[0].trim(),
+          poster_path: btn.dataset.poster || null
+        })
+      });
+      if (res.status === 401) { requireLoginRedirect(); return; }
+      const data = await res.json();
+      if (data.success) {
+        setHeartState(btn, data.favorited);
+        const label = btn.querySelector('span:not(.like-count)');
+        if (label && /FAVORIT/i.test(label.textContent)) {
+          label.textContent = data.favorited ? 'FAVORITED' : 'ADD TO FAVORITES';
+        }
+        toast(data.message || (data.favorited ? 'Added to favorites' : 'Removed from favorites'));
+      } else {
+        toast(data.message || 'Something went wrong');
+      }
+    } catch (err) {
+      console.error(err);
+      toast('Network error. Please try again.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function toggleLike(btn) {
+    const mediaType = btn.dataset.mediaType || 'tv';
+    if (!['tv', 'movie'].includes(mediaType)) return;
+    const tmdbId = btn.dataset.tmdbId || btn.dataset.showId || btn.dataset.movieId;
+    if (!tmdbId) return;
+
+    btn.disabled = true;
+    try {
+      const res = await fetch('api/likes.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'toggle', tmdb_id: Number(tmdbId), media_type: mediaType })
+      });
+      if (res.status === 401) { requireLoginRedirect(); return; }
+      const data = await res.json();
+      if (data.success) {
+        setHeartState(btn, data.liked);
+        const count = btn.querySelector('.like-count');
+        if (count && typeof data.count === 'number') count.textContent = Number(data.count).toLocaleString();
+      }
+    } catch (err) {
+      console.error(err);
+      toast('Network error. Please try again.');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  document.addEventListener('click', (e) => {
+    const favBtn = e.target.closest('.favorite-btn');
+    if (favBtn) { e.preventDefault(); toggleFavorite(favBtn); return; }
+    const likeBtn = e.target.closest('.like-btn');
+    if (likeBtn) { e.preventDefault(); toggleLike(likeBtn); }
+  });
+})();

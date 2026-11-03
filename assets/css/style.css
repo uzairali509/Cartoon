@@ -279,6 +279,14 @@ body:not(.intro-on) #skipBtn {
   will-change: transform
 }
 
+body:not(.intro-on) #site {
+  position: static;
+  z-index: auto;
+  overflow: visible;
+  background: transparent;
+  will-change: auto
+}
+
 .sky {
   position: absolute;
   inset: 0;

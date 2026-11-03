@@ -35,7 +35,7 @@ function verifyPassword(string $password, string $hash): bool {
  * 
  * @return array ['success' => bool, 'message' => string, 'user' => array|null]
  */
-function registerUser(string $name, string $email, string $password, string $avatarPath = null): array {
+function registerUser(string $name, string $email, string $password, ?string $avatarPath = null): array {
     $pdo = getConnection();
     
     // Check if email exists
