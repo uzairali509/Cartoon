@@ -3,7 +3,7 @@
  * Intro Animation Configuration
  *
  * Configure GIF paths for each intro card here.
- * Uses the custom artwork from assets/gifs/ (scene-based naming matching data.php).
+ * Uses the custom artwork from assets/gif/ (scene-based naming matching data.php).
  *
  * Edit this file to change images. No JavaScript or animation logic needs to change
  * when an image path is replaced.
@@ -17,53 +17,53 @@
 
 return [
     // Phase 1: Chain cards (7 cards - alternating left/bottom entry)
-    // Image paths reference assets/gifs/ where the custom GIFs actually live.
+    // Image paths reference assets/gif/ where the custom GIFs actually live.
     'chain' => [
         [
             'scene' => 'fox',
-            'gif'   => 'assets/gifs/fox.gif',
+            'gif'   => 'assets/gif/fox.gif',
             'alt'   => 'Fox',
             'rotation' => -7,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'rocket',
-            'gif'   => 'assets/gifs/rocket.gif',
+            'gif'   => 'assets/gif/rocket.gif',
             'alt'   => 'Rocket',
             'rotation' => 6,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'cactus',
-            'gif'   => 'assets/gifs/cactus.gif',
+            'gif'   => 'assets/gif/cactus.gif',
             'alt'   => 'Cactus',
             'rotation' => -5,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'bear',
-            'gif'   => 'assets/gifs/bear.gif',
+            'gif'   => 'assets/gif/bear.gif',
             'alt'   => 'Bear',
             'rotation' => 7,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'icecream',
-            'gif'   => 'assets/gifs/icecream.gif',
+            'gif'   => 'assets/gif/icecream.gif',
             'alt'   => 'Ice Cream',
             'rotation' => -6,
             'enterFrom' => 'left'
         ],
         [
             'scene' => 'balloon',
-            'gif'   => 'assets/gifs/balloon.gif',
+            'gif'   => 'assets/gif/balloon.gif',
             'alt'   => 'Balloon',
             'rotation' => 5,
             'enterFrom' => 'bottom'
         ],
         [
             'scene' => 'burger',
-            'gif'   => 'assets/gifs/burger.gif',
+            'gif'   => 'assets/gif/burger.gif',
             'alt'   => 'Burger',
             'rotation' => -4,
             'enterFrom' => 'left'
@@ -74,56 +74,56 @@ return [
     'collage' => [
         'main' => [
             'scene'   => 'rainbow',
-            'gif'     => 'assets/gifs/rainbow.gif',
+            'gif'     => 'assets/gif/rainbow.gif',
             'alt'     => 'Rainbow',
             'landscape' => false,
         ],
         'sides' => [
             [
                 'scene'   => 'rainbow',
-                'gif'     => 'assets/gifs/rainbow.gif',
+                'gif'     => 'assets/gif/rainbow.gif',
                 'alt'     => 'Rainbow',
                 'landscape' => true,
                 'position'  => 'top',
             ],
             [
                 'scene'   => 'bunny',
-                'gif'     => 'assets/gifs/bunny.gif',
+                'gif'     => 'assets/gif/bunny.gif',
                 'alt'     => 'Bunny',
                 'landscape' => false,
                 'position'  => 'left',
             ],
             [
                 'scene'   => 'cat',
-                'gif'     => 'assets/gifs/cat.gif',
+                'gif'     => 'assets/gif/cat.gif',
                 'alt'     => 'Cat',
                 'landscape' => false,
                 'position'  => 'right',
             ],
             [
                 'scene'   => 'star',
-                'gif'     => 'assets/gifs/star.gif',
+                'gif'     => 'assets/gif/star.gif',
                 'alt'     => 'Star',
                 'landscape' => false,
                 'position'  => 'bottom-left',
             ],
             [
                 'scene'   => 'controller',
-                'gif'     => 'assets/gifs/controller.gif',
+                'gif'     => 'assets/gif/controller.gif',
                 'alt'     => 'Controller',
                 'landscape' => false,
                 'position'  => 'bottom-right',
             ],
             [
                 'scene'   => 'icecream',
-                'gif'     => 'assets/gifs/icecream.gif',
+                'gif'     => 'assets/gif/icecream.gif',
                 'alt'     => 'Ice Cream',
                 'landscape' => false,
                 'position'  => 'bottom',
             ],
             [
                 'scene'   => 'burger',
-                'gif'     => 'assets/gifs/burger.gif',
+                'gif'     => 'assets/gif/burger.gif',
                 'alt'     => 'Burger',
                 'landscape' => true,
                 'position'  => 'bottom',

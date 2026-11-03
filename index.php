@@ -301,7 +301,7 @@ $floatChars = array_slice($characters, 0, 6);
     <?php foreach ($floatChars as $i => $char): ?>
       <div class="float-char" style="--i: <?= $i ?>;" data-character="<?= htmlspecialchars($char['scene']) ?>">
         <div class="float-char-inner">
-          <img src="assets/gifs/<?= htmlspecialchars($char['scene']) ?>.gif" alt="<?= htmlspecialchars($char['name']) ?>" loading="lazy"
+          <img src="assets/gif/<?= htmlspecialchars($char['scene']) ?>.gif" alt="<?= htmlspecialchars($char['name']) ?>" loading="lazy"
                onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';">
           <span class="float-char-name"><?= htmlspecialchars($char['name']) ?></span>
         </div>
@@ -416,7 +416,7 @@ $floatChars = array_slice($characters, 0, 6);
       <?php foreach ($characters as $char): ?>
         <article class="character-card" data-character="<?= htmlspecialchars($char['scene']) ?>">
           <div class="character-card-inner">
-            <img src="assets/gifs/<?= htmlspecialchars($char['scene']) ?>.gif" alt="<?= htmlspecialchars($char['name']) ?>" loading="lazy"
+            <img src="assets/gif/<?= htmlspecialchars($char['scene']) ?>.gif" alt="<?= htmlspecialchars($char['name']) ?>" loading="lazy"
                  onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjAwIDI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI1MCIgZmlsbD0iI0ZGOWM2MyIvPjwvc3ZnPg=='; this.style.opacity='0.5';">
             <div class="character-card-overlay">
               <h3 class="character-card-name"><?= htmlspecialchars($char['name']) ?></h3>
