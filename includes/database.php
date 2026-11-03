@@ -32,15 +32,16 @@ $sqliteConnection = null;
 /**
  * Get database connection
  */
-function getConnection(): PDO {
+function getConnection(): PDO
+{
     global $sqliteConnection;
-    
+
     if (DB_TYPE === 'sqlite') {
         // Return existing connection if available
         if ($sqliteConnection instanceof PDO) {
             return $sqliteConnection;
         }
-        
+
         $dir = dirname(SQLITE_PATH);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
@@ -48,15 +49,15 @@ function getConnection(): PDO {
         $pdo = new PDO('sqlite:' . SQLITE_PATH);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        
+
         // Disable WAL mode to prevent locking issues - must be first command
         $pdo->exec('PRAGMA journal_mode = DELETE');
         // Set busy timeout to 5 seconds
         $pdo->exec('PRAGMA busy_timeout = 5000');
-        
+
         // Store singleton
         $sqliteConnection = $pdo;
-        
+
         return $pdo;
     } else {
         $options = [
@@ -76,9 +77,13 @@ function getConnection(): PDO {
 /**
  * Initialize database tables
  */
-function initDatabase(): void {
+/**
+ * Initialize database tables
+ */
+function initDatabase(): void
+{
     $pdo = getConnection();
-    
+
     if (DB_TYPE === 'sqlite') {
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS users (
@@ -94,6 +99,7 @@ function initDatabase(): void {
             CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
         ");
     } else {
+        // 1. Pehle table banayein
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -104,9 +110,13 @@ function initDatabase(): void {
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-            
-            CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
         ");
+
+        // 2. Check karein ke index pehle se mojood hai ya nahi, phir create karein
+        $stmt = $pdo->query("SHOW INDEX FROM users WHERE Key_name = 'idx_users_email'");
+        if ($stmt->rowCount() == 0) {
+            $pdo->exec("CREATE INDEX idx_users_email ON users(email)");
+        }
     }
 }
 
