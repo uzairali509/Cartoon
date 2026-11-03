@@ -8,6 +8,7 @@
  *   include 'includes/footer.php';
  */
 ?>
+
   </div><!-- /#site -->
 
   <div class="grain"></div>

@@ -208,6 +208,93 @@ $floatChars = array_slice($characters, 0, 6);
   <?php endif; ?>
 </main>
 
+<!-- Featured Content Slider -->
+<section class="featured-slider-section reveal-section" data-reveal="fade-up">
+  <header class="section-header">
+    <h2 class="section-title">Featured Content</h2>
+    <a href="shows.php" class="view-all">View All →</a>
+  </header>
+  <div class="featured-slider">
+    <button class="slider-btn slider-prev" aria-label="Previous slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+    </button>
+    <div class="slider-track">
+      <?php 
+      $sliderItems = [];
+      if ($trendingShows && !empty($trendingShows['results'])) {
+        foreach (array_slice($trendingShows['results'], 0, 6) as $show) {
+          $sliderItems[] = $tmdb->formatTvShow($show);
+        }
+      }
+      if ($popularMovies && !empty($popularMovies['results'])) {
+        foreach (array_slice($popularMovies['results'], 0, 6) as $movie) {
+          $sliderItems[] = $tmdb->formatMovie($movie);
+        }
+      }
+      ?>
+      <?php foreach ($sliderItems as $item): ?>
+        <?php 
+          $mediaType = $item['media_type'] ?? 'tv';
+          $watchUrl = ($mediaType === 'tv' ? 'show.php?id=' : 'movie.php?id=') . $item['tmdb_id'];
+        ?>
+        <div class="slider-slide">
+          <div class="slider-card">
+            <?php if (!empty($item['backdrop_url'])): ?>
+              <div class="slider-backdrop" style="background-image: url('<?= htmlspecialchars($item['backdrop_url']) ?>')"></div>
+            <?php endif; ?>
+            <div class="slider-content">
+              <?php if (!empty($item['poster_url'])): ?>
+                <img src="<?= htmlspecialchars($item['poster_url']) ?>" alt="" class="slider-poster">
+              <?php endif; ?>
+              <div class="slider-info">
+                <div class="slider-badges">
+                  <?php if (!empty($item['first_air_date'])): ?>
+                    <span class="slider-badge year"><?= htmlspecialchars(substr($item['first_air_date'], 0, 4)) ?></span>
+                  <?php endif; ?>
+                  <?php if (!empty($item['vote_average'])): ?>
+                    <span class="slider-badge rating">★ <?= number_format($item['vote_average'], 1) ?></span>
+                  <?php endif; ?>
+                </div>
+                <h3 class="slider-title"><?= htmlspecialchars($item['title']) ?></h3>
+                <p class="slider-overview"><?= htmlspecialchars($item['overview'] ?? '') ?></p>
+                <div class="slider-genres">
+                  <?php 
+                  $genreMap = [
+                      16 => 'Animation', 10751 => 'Family', 10759 => 'Action & Adventure',
+                      10762 => 'Kids', 10765 => 'Sci-Fi & Fantasy', 35 => 'Comedy',
+                      18 => 'Drama', 12 => 'Adventure', 14 => 'Fantasy', 9648 => 'Mystery',
+                      28 => 'Action', 10759 => 'Action & Adventure'
+                  ];
+                  foreach (array_slice($item['genre_ids'] ?? [], 0, 3) as $gid) { 
+                    if (isset($genreMap[$gid])) { 
+                  ?>
+                    <span class="slider-genre-tag"><?= $genreMap[$gid] ?></span>
+                  <?php } } ?>
+                </div>
+                <a href="<?= htmlspecialchars($watchUrl) ?>" class="slider-btn-primary">Watch Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+    <button class="slider-btn slider-next" aria-label="Next slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </button>
+    <div class="slider-dots" role="tablist" aria-label="Slide navigation">
+      <?php foreach ($sliderItems as $i => $item) { ?>
+        <button class="slider-dot<?= $i === 0 ? ' active' : '' ?>" role="tab" aria-label="Slide <?= $i + 1 ?>" aria-pressed="<?= $i === 0 ? 'true' : 'false' ?>"></button>
+      <?php } ?>
+    </div>
+  </div>
+</section>
+
 <div id="mainContent" class="main-content">
   <!-- Floating Character Cards -->
   <div class="float-chars" aria-hidden="true">

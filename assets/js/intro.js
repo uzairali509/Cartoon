@@ -51,6 +51,7 @@ function parseIntroConfig() {
     // Parse main collage card
     const mainCard = collageMain ? {
         el: collageMain,
+        scene: collageMain.dataset.scene || '',
         gif: collageMain.dataset.gif,
         landscape: collageMain.dataset.landscape === 'true',
         art: collageMain.querySelector('.art img')
@@ -59,6 +60,7 @@ function parseIntroConfig() {
     // Parse side collage cards
     const sides = collageSides.map(card => ({
         el: card,
+        scene: card.dataset.scene || '',
         gif: card.dataset.gif,
         position: card.dataset.position || 'bottom',
         landscape: card.classList.contains('land'),
@@ -72,7 +74,7 @@ function parseIntroConfig() {
  * Get responsive position for collage cards
  */
 function getCollagePositions(P) {
-    // Desktop positions
+    // Desktop positions - all 7 side cards
     if (!P) {
         return [
             { key: 'rainbow', fx: .5, fy: .155, rot: 3.5, s: .9, dir: 'top', rx: 6 },
@@ -80,17 +82,19 @@ function getCollagePositions(P) {
             { key: 'cat', fx: .785, fy: .41, rot: 6, s: .92, dir: 'right', ry: -8 },
             { key: 'star', fx: .30, fy: .735, rot: -4.5, s: .86, dir: 'bl' },
             { key: 'controller', fx: .70, fy: .755, rot: 5, s: .88, dir: 'br' },
+            { key: 'icecream', fx: .26, fy: .895, rot: -5, s: .85, dir: 'bottom' },
             { key: 'burger', fx: .51, fy: .875, rot: -3, s: .76, dir: 'bottom' }
         ];
     }
-    // Mobile/portrait positions
+    // Mobile/portrait positions - all 7 side cards
     return [
         { key: 'star', fx: .5, fy: .11, rot: 3.5, s: .78, dir: 'top' },
         { key: 'bunny', fx: .17, fy: .33, rot: -8, s: .85, dir: 'left' },
         { key: 'cat', fx: .83, fy: .35, rot: 7, s: .85, dir: 'right' },
         { key: 'icecream', fx: .26, fy: .67, rot: -5, s: .85, dir: 'bl' },
         { key: 'controller', fx: .74, fy: .70, rot: 5, s: .85, dir: 'br' },
-        { key: 'rainbow', fx: .5, fy: .87, rot: -3, s: .74, dir: 'bottom' }
+        { key: 'rainbow', fx: .5, fy: .87, rot: -3, s: .74, dir: 'bottom' },
+        { key: 'burger', fx: .5, fy: .94, rot: 2, s: .70, dir: 'bottom' }
     ];
 }
 
@@ -281,10 +285,13 @@ class IntroAnimation {
         const offs = getCollageOffsets(this.W, this.H);
         
         this.sides = defs.map(d => {
-            // Find matching side element by gif
-            const side = this.sides.find(s => s.gif.includes(d.key));
+            // Find matching side element by scene key
+            const side = this.sides.find(s => s.scene === d.key);
             const el = side ? side.el : null;
-            if (!el) return null;
+            if (!el) {
+                console.warn('Intro: no collage side card for scene key:', d.key);
+                return null;
+            }
             return { 
                 ...d, 
                 el, 

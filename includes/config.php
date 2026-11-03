@@ -79,6 +79,28 @@ function e($string) {
 }
 
 /**
+ * Return inline SVG fallback markup for a given intro scene key.
+ * Used when the custom GIF/image fails to load.
+ *
+ * @param string $scene Scene key (fox, rocket, cactus, bear, etc.)
+ * @param bool $landscape Whether to use the landscape variant
+ * @return string Inline SVG markup
+ */
+function cu_scene(string $scene, bool $landscape = false): string {
+    $DATA = require __DIR__ . '/data.php';
+    $scenes = $DATA['scenes'] ?? [];
+    $key = $landscape ? $scene . '_land' : $scene;
+    if (isset($scenes[$key])) {
+        return $scenes[$key];
+    }
+    if (isset($scenes[$scene])) {
+        return $scenes[$scene];
+    }
+    // Generic fallback
+    return '<rect width="200" height="250" fill="#2A2A2F"/><circle cx="100" cy="125" r="40" fill="#E85D2A"/><path d="M93 149 L107 149 L100 159 Z" fill="#33261D"/>';
+}
+
+/**
  * Generate CSRF field
  */
 function csrfField(): string {
